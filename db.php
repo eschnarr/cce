@@ -1,47 +1,44 @@
 <?php
 
-const CHARITIES_DB = "charities.db";
+const LOCK_FILE = "data/auto.lock";
+const CHARITIES_DB = "data/charities.db";
 
 class Charity {
-    public $name = NULL;
     public $url = NULL;
+    public $name = NULL;
     public $donate = NULL;
     public $value = 0.0;
 
-    function __construct($name, $url, $donate, $value)
+    function __construct($url="", $name="", $donate="", $value=0.0)
     {
-        $this->name = $name;
         $this->url = $url;
+        $this->name = $name;
         $this->donate = $donate;
         $this->value = $value;
     }
 }
 
+function get_domain($url)
+{
+    $domain = $url;
+    if($n = strpos($domain,"://")) { $domain = substr($domain,$n+3); }
+    if($n = strpos($domain,"/")) { $domain = substr($domain,0,$n); }
+    return $domain;
+}
+
 function load_charities()
 {
     try {
-        $charities = [];
+        $charities = array();
 
         if(FALSE !== ($fd = fopen(CHARITIES_DB, 'r'))) {
             while(FALSE !== ($csv = fgetcsv($fd))) {
-                $charities[] = new Charity(
-                    $name = $csv[0],
+                $charities[$csv[0]] = new Charity(
                     $url = $csv[1],
-                    $donate = $csv[2],
-                    $value = $csv[3]);
+                    $name = $csv[2],
+                    $donate = $csv[3],
+                    $value = $csv[4]);
             }
-
-        } else {
-            $charities[] = new Charity(
-                $name = "Dane County Humane Society",
-                $url = "www.giveshelter.org",
-                $donate = "https://www.giveshelter.org/make-a-donation.html",
-                $value = 100.0);
-            $charities[] = new Charity(
-                $name = "American Red Cross",
-                $url = "www.redcross.org",
-                $donate = "https://www.redcross.org/donate/donation",
-                $value = 200.0);
         }
 
         return $charities;
@@ -55,11 +52,9 @@ function save_charities($charities)
 {
     try {
         if(FALSE === ($fd = fopen(CHARITIES_DB, 'w'))) { return FALSE; }
-
-        foreach($charities as $c) {
-            fputcsv($fd, [ $c->name, $c->url, $c->donate, $c->value ]);
+        foreach($charities as $k => $c) {
+            fputcsv($fd, array($k, $c->url, $c->name, $c->donate, $c->value));
         }
-
         return TRUE;
 
     } finally {

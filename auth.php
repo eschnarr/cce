@@ -11,9 +11,16 @@ function gen_auth($email)
     $_email = $_req['email'];
     $_auth = $_req['auth'];
     if(gen_auth($_email) == $_auth) {
-        $GLOBALS['email'] = $_email;
-        $GLOBALS['auth'] = $_auth;
+        global $email, $auth;
+        $email = $_email;
+        $auth = $_auth;
     }
+
+    global $countdown;
+    $now = new DateTime();
+    $end = new DateTime("2017-04-15");
+    $countdown = $end->getTimestamp() - $now->getTimestamp();
+
 }
 
 ?>

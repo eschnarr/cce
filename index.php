@@ -30,17 +30,14 @@
       </center></td>
 
       <td width=200><div class=cce-status><?php
-            $now = new DateTime();
-            $end = new DateTime("2017-04-15");
-            $delay = $end->getTimestamp() - $now->getTimestamp();
             $clock_stopped = "The event has ended!";
-            if($delay <= 0) { echo $clock_stopped; }
+            if($countdown <= 0) { echo $clock_stopped; }
             else echo <<<"END"
 <p><a href="invite1.php">Send an invitation</a></p>
 Time until event ends:<div class=clock>00 days 00h 00m 00s
 <script type="text/javascript">
   function startTimer() {
-    var timer = {$delay}, days, hours, minutes, seconds;
+    var timer = {$countdown}, days, hours, minutes, seconds;
     setInterval(function() {
         days = parseInt(timer / (60 * 60 * 24), 10);
         hours = parseInt(timer / (60 * 60) % 24, 10);
@@ -121,14 +118,14 @@ END;
 
       echo "<table class=charity-table>", PHP_EOL;
       echo "<tr><th>Charity</th><th>Current Donations</th></tr>", PHP_EOL;
-      foreach($recs as $c) {
+      foreach($recs as $domain => $c) {
           echo <<<"END"
 <tr>
   <td class=charity-name>{$c->name}<br><span class=charity-url>
-    (<a href="{$c->url}">{$c->url}</a>)</span></td>
+    (<a href="{$c->url}">{$domain}</a>)</span></td>
   <td class=charity-value align="center">&dollar;{$c->value}</td>
 END;
-          if($auth && $delay > 0) echo <<<"END"
+          if($auth && $countdown > 0) echo <<<"END"
   <td class=charity-donate><a href="{$c->donate}" target="_blank">DONATE</a></td>
   <td class=charity-record><form action="record-donation.php" method="post">
     &dollar;<input type="number" name="amount" min="0" step="0.01" required>
@@ -147,17 +144,12 @@ END;
 <br>
 <form action="new-charity.php" method="post">
 <table><tr>
-  <td align="right">Charity Name:</td>
-  <td><input type="text" name="name" required></td>
-  <td align="right">Web Site URL:</td>
+  <td align="right">Charity URL:</td>
   <td><input type="url" name="url" required></td>
 </tr><tr>
-  <td align="right">URL for Donations:</td>
-  <td><input type="url" name="donate" required></td>
-  <td align="right">Initial Donation:</td>
-  <td>&dollar;<input type="number" name="value" step="0.01"></td>
-</tr><tr>
-  <td colspan=4 align="center"><input type="submit" value="Add Charity"></td>
+  <td colspan=2 align="center">
+    <input type="submit" value="Add Charity">
+  </td>
 </tr></table>
 </form>
 END;
