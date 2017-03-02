@@ -75,6 +75,10 @@ Time until event ends:<div class=clock>00 days 00h 00m 00s
   window.onload = function() {
     startTimer();
   };
+
+  function load_it() {
+      document.getElementById("testload").innerHTML='<object type="text/html" data="new-charity.php?url=\"http://localhost\""></object>';
+  }
 </script></div>
 END;
           ?>
@@ -209,6 +213,10 @@ END;
 
     ?>
     </td></tr></table>
+
+    Sample code starts here!!!<br>
+    <div id="testload"></div><br>
+    <a href="javascript:load_it();">click me</a>
 
   </body>
 </html>
