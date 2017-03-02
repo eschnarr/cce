@@ -131,17 +131,14 @@ END;
 </tr><tr>
   <td class=charity-name>{$c->name}<br><span class=charity-url>
     (<a href="{$c->url}">{$domain}</a>)</span></td>
-  <td class=charity-value align="center">&dollar;{$value}</td>
+  <td class=charity-record><form action="change-donation.php" method="post">
+    &dollar;<input type="number" name="value" min="0" step="0.01" value="{$value}" required>
+    <input type="hidden" name="domain" value="{$domain}">
+    <input type="submit" value="Change">
+    </form></td>
 END;
           if($auth && $countdown > 0) $text[] = <<<"END"
   <td class=charity-donate><a href="{$c->donate}" target="_blank">DONATE</a></td>
-  <td class=charity-record><form action="change-donation.php" method="post">
-    &dollar;<input type="number" name="value" min="0" step="0.01" required>
-    <input type="hidden" name="domain" value="{$domain}">
-    <input type="submit" value="Change Donation">
-END;
-          $text[] = <<<"END"
-  </form></td>
 END;
       }
 
