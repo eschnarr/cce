@@ -17,13 +17,13 @@
 
     $name = trim($_POST['name']);
     $donate = filter_var($_POST['donate'], FILTER_SANITIZE_URL);
-    $value = filter_var($_POST['value'], FILTER_SANITIZE_NUMBER_FLOAT);
+    $value = (float)filter_var($_POST['value'], FILTER_SANITIZE_NUMBER_FLOAT);
     if($value < 0.0) { $value = 0.0; }
 
     if($domain) try {
         $do_update = $url && $name && $donate;
 
-        $lock = fopen(LOCK_FILE, 'w');
+        $lock = fopen(LOCK_FILE, 'rw');
         flock($lock, $do_update ? LOCK_EX : LOCK_SH);
 
         $charities = load_charities();
@@ -40,6 +40,12 @@
             $c->donate = $donate;
             if(!$c->donate) { $c->donate = $url; }
             $c->value += $value;
+
+            if($value > 0.0) {
+                $donations = load_donations($email);
+                $donations[$domain] += $value;
+                save_donations($email, $donations);
+            }
 
             save_charities($charities);
             header("Location: index.php");
@@ -61,8 +67,6 @@
     } else {
         $c = new Charity();
     }
-
-    include "header.html";
 ?>
 
 <html><body>
@@ -91,7 +95,3 @@
 </form>
 
 </body></html>
-
-<?php
-    include "footer.html";
-?>

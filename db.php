@@ -1,7 +1,8 @@
 <?php
 
-const LOCK_FILE = "data/auto.lock";
-const CHARITIES_DB = "data/charities.db";
+const DATA_DIR = "./data";
+const LOCK_FILE = DATA_DIR."/auto.lock";
+const CHARITIES_DB = DATA_DIR."/charities.db";
 
 class Charity {
     public $url = NULL;
@@ -34,10 +35,8 @@ function load_charities()
         if(FALSE !== ($fd = fopen(CHARITIES_DB, 'r'))) {
             while(FALSE !== ($csv = fgetcsv($fd))) {
                 $charities[$csv[0]] = new Charity(
-                    $url = $csv[1],
-                    $name = $csv[2],
-                    $donate = $csv[3],
-                    $value = $csv[4]);
+                    $url = $csv[1], $name = $csv[2], $donate = $csv[3],
+                    $value = (float)$csv[4]);
             }
         }
 
@@ -55,6 +54,36 @@ function save_charities($charities)
         foreach($charities as $k => $c) {
             fputcsv($fd, array($k, $c->url, $c->name, $c->donate, $c->value));
         }
+        return TRUE;
+
+    } finally {
+        if($fd) { fclose($fd); }
+    }
+}
+
+function load_donations($email)
+{
+    try {
+        $donations = array();
+
+        if(FALSE !== ($fd = fopen(DATA_DIR."/{$email}", 'r'))) {
+            while(FALSE !== ($csv = fgetcsv($fd))) {
+                $donations[$csv[0]] = (float)$csv[1];
+            }
+        }
+
+        return $donations;
+
+    } finally {
+        if($fd) { fclose($fd); }
+    }
+}
+
+function save_donations($email, $donations)
+{
+    try {
+        if(FALSE === ($fd = fopen(DATA_DIR."/{$email}", 'w'))) { return FALSE; }
+        foreach($donations as $k => $v) { fputcsv($fd, array($k, $v)); }
         return TRUE;
 
     } finally {

@@ -10,7 +10,8 @@ function gen_auth($email)
     $_req = array_merge($_COOKIE, $_POST, $_GET);
     $_email = $_req['email'];
     $_auth = $_req['auth'];
-    if(gen_auth($_email) == $_auth) {
+
+    if($_email && gen_auth($_email) == $_auth) {
         global $email, $auth;
         $email = $_email;
         $auth = $_auth;
