@@ -20,7 +20,7 @@
     $value = (float)filter_var($_POST['value'], FILTER_SANITIZE_NUMBER_FLOAT);
     if($value < 0.0) { $value = 0.0; }
 
-    if($domain) try {
+    if($domain) {
         $do_update = $url && $name && $donate;
 
         $lock = fopen(LOCK_FILE, 'rw');
@@ -48,15 +48,15 @@
             }
 
             save_charities($charities);
+            flock($lock, LOCK_UN);
+            fclose($lock);
+
             header("Location: index.php");
             exit;
         }
 
-    } finally {
-        if($lock) {
-            flock($lock, LOCK_UN);
-            fclose($lock);
-        }
+        flock($lock, LOCK_UN);
+        fclose($lock);
     }
 
     if($c) {

@@ -16,7 +16,7 @@
     $value = (float)filter_var($_POST['value'], FILTER_SANITIZE_NUMBER_FLOAT);
     if($value < 0.0) { $value = 0.0; }
 
-    if($domain) try {
+    if($domain) {
         $lock = fopen(LOCK_FILE, 'rw');
         flock($lock, LOCK_EX);
 
@@ -38,11 +38,8 @@
         save_donations($email, $donations);
         save_charities($charities);
 
-    } finally {
-        if($lock) {
-            flock($lock, LOCK_UN);
-            fclose($lock);
-        }
+        flock($lock, LOCK_UN);
+        fclose($lock);
     }
 
     header("Location: index.php");

@@ -29,66 +29,57 @@ function get_domain($url)
 
 function load_charities()
 {
-    try {
-        $charities = array();
+     $charities = array();
 
-        if(FALSE !== ($fd = fopen(CHARITIES_DB, 'r'))) {
-            while(FALSE !== ($csv = fgetcsv($fd))) {
-                $charities[$csv[0]] = new Charity(
-                    $url = $csv[1], $name = $csv[2], $donate = $csv[3],
-                    $value = (float)$csv[4]);
-            }
-        }
+     if(FALSE !== ($fd = fopen(CHARITIES_DB, 'r'))) {
+         while(FALSE !== ($csv = fgetcsv($fd))) {
+             $charities[$csv[0]] = new Charity(
+                 $url = $csv[1], $name = $csv[2], $donate = $csv[3],
+                 $value = (float)$csv[4]);
+         }
+     }
 
-        return $charities;
+     fclose($fd);
 
-    } finally {
-        if($fd) { fclose($fd); }
-    }
+     return $charities;
 }
 
 function save_charities($charities)
 {
-    try {
-        if(FALSE === ($fd = fopen(CHARITIES_DB, 'w'))) { return FALSE; }
-        foreach($charities as $k => $c) {
-            fputcsv($fd, array($k, $c->url, $c->name, $c->donate, $c->value));
-        }
-        return TRUE;
-
-    } finally {
-        if($fd) { fclose($fd); }
+    if(FALSE === ($fd = fopen(CHARITIES_DB, 'w'))) { return FALSE; }
+    foreach($charities as $k => $c) {
+        fputcsv($fd, array($k, $c->url, $c->name, $c->donate, $c->value));
     }
+
+    fclose($fd);
+
+    return TRUE;
 }
 
 function load_donations($email)
 {
-    try {
-        $donations = array();
+    $donations = array();
 
-        if(FALSE !== ($fd = fopen(DATA_DIR."/{$email}", 'r'))) {
-            while(FALSE !== ($csv = fgetcsv($fd))) {
-                $donations[$csv[0]] = (float)$csv[1];
-            }
+    if(FALSE !== ($fd = fopen(DATA_DIR."/{$email}", 'r'))) {
+        while(FALSE !== ($csv = fgetcsv($fd))) {
+            $donations[$csv[0]] = (float)$csv[1];
         }
-
-        return $donations;
-
-    } finally {
-        if($fd) { fclose($fd); }
     }
+
+    fclose($fd);
+
+    return $donations;
 }
 
 function save_donations($email, $donations)
 {
-    try {
-        if(FALSE === ($fd = fopen(DATA_DIR."/{$email}", 'w'))) { return FALSE; }
-        foreach($donations as $k => $v) { fputcsv($fd, array($k, $v)); }
-        return TRUE;
+    if(FALSE === ($fd = fopen(DATA_DIR."/{$email}", 'w'))) { return FALSE; }
 
-    } finally {
-        if($fd) { fclose($fd); }
-    }
+    foreach($donations as $k => $v) { fputcsv($fd, array($k, $v)); }
+
+    fclose($fd);
+
+    return TRUE;
 }
 
 ?>

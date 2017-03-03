@@ -5,19 +5,14 @@
     if($email) { setcookie('email', $email); }
     if($auth) { setcookie('auth', $auth); }
 
-    try {
-        $lock = fopen(LOCK_FILE, 'rw');
-        flock($lock, LOCK_SH);
+    $lock = fopen(LOCK_FILE, 'rw');
+    flock($lock, LOCK_SH);
 
-        $charities = load_charities();
-        $donations = $email ? load_donations($email) : array();
+    $charities = load_charities();
+    $donations = $email ? load_donations($email) : array();
 
-    } finally {
-        if($lock) {
-            flock($lock, LOCK_UN);
-            fclose($lock);
-        }
-    }
+    flock($lock, LOCK_UN);
+    fclose($lock);
 
     $total_value = 0.0;
     foreach($charities as $c) {
@@ -46,7 +41,7 @@
             $clock_stopped = "The event has ended!";
             if($countdown <= 0) { echo $clock_stopped; }
             else echo <<<"END"
-<p><a href="invite1.php">Send an invitation</a></p>
+<p><a href="invite.php?n=1">Send an invitation</a></p>
 Time until event ends:<div class=clock>00 days 00h 00m 00s
 <script type="text/javascript">
   function startTimer() {
@@ -89,7 +84,7 @@ END;
       <td colspan=2><div class=welcome><?php
           if($email) { echo "Welcome {$email}"; }
           else echo <<<"END"
-<a href="invite1.php">Send yourself an invitation</a>
+<a href="invite.php?n=1">Send yourself an invitation</a>
 END;
         ?>
       </div></td>
@@ -116,8 +111,8 @@ END;
       <li>Tell us about your donation, so everyone can see the cumulative
         effect of all this giving</li>
 
-      <li>Invite FIVE of your friends to also participate in the Charity
-        Chain [<a href="invite5.php">INVITE FRIENDS</a>]</li>
+      <li>Invite FIVE of your friends to also participate in The Charity
+        Chain [<a href="invite.php?n=5">INVITE FRIENDS</a>]</li>
 
     </ol></p>
 
