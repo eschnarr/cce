@@ -1,8 +1,8 @@
 <?php
 
-const DATA_DIR = "./data";
-const LOCK_FILE = DATA_DIR."/auto.lock";
-const CHARITIES_DB = DATA_DIR."/charities.db";
+define('DATA_DIR', "./data");
+define('LOCK_FILE', DATA_DIR."/auto.lock");
+define('CHARITIES_DB', DATA_DIR."/charities.db");
 
 class Charity {
     public $url = NULL;
