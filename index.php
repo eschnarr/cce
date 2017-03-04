@@ -1,24 +1,33 @@
 <?php
-    require_once "auth.php";
-    require_once "db.php";
+if($_SERVER['SERVER_NAME'] != "localhost" &&
+   (!$_SERVER['HTTPS'] || $_SERVER['HTTPS'] == "off"))
+{
+    $redirect = "https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    header('HTTP/1.1 301 Moved Permanently');
+    header('Location: ' . $redirect);
+    exit();
+}
 
-    if($email) { setcookie('email', $email); }
-    if($auth) { setcookie('auth', $auth); }
+require_once "auth.php";
+require_once "db.php";
 
-    $lock = fopen(LOCK_FILE, 'rw');
-    flock($lock, LOCK_SH);
+if($email) { setcookie('email', $email); }
+if($auth) { setcookie('auth', $auth); }
 
-    $charities = load_charities();
-    $donations = $email ? load_donations($email) : array();
+$lock = fopen(LOCK_FILE, 'rw');
+flock($lock, LOCK_SH);
 
-    flock($lock, LOCK_UN);
-    fclose($lock);
+$charities = load_charities();
+$donations = $email ? load_donations($email) : array();
 
-    $total_value = 0.0;
-    foreach($charities as $c) {
-        $total_value += $c->value;
-    }
-  ?>
+flock($lock, LOCK_UN);
+fclose($lock);
+
+$total_value = 0.0;
+foreach($charities as $c) {
+    $total_value += $c->value;
+}
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -38,9 +47,9 @@
       </center></td>
 
       <td width=200><div class=cce-status><?php
-            $clock_stopped = "The event has ended!";
-            if($countdown <= 0) { echo $clock_stopped; }
-            else echo <<<"END"
+$clock_stopped = "The event has ended!";
+if($countdown <= 0) { echo $clock_stopped; }
+else echo <<<"END"
 <p><a href="invite.php?n=1">Send an invitation</a></p>
 Time until event ends:<div class=clock>00 days 00h 00m 00s
 <script type="text/javascript">
@@ -76,17 +85,17 @@ Time until event ends:<div class=clock>00 days 00h 00m 00s
   }
 </script></div>
 END;
-          ?>
+?>
       </div></td>
 
     </tr><tr>
 
       <td colspan=2><div class=welcome><?php
-          if($email) { echo "Welcome {$email}"; }
-          else echo <<<"END"
+if($email) { echo "Welcome {$email}"; }
+else echo <<<"END"
 <a href="invite.php?n=1">Send yourself an invitation</a>
 END;
-        ?>
+?>
       </div></td>
 
       <td><div class=about>
@@ -117,12 +126,12 @@ END;
     </ol></p>
 
     <?php
-      $text = array();
-      foreach($donations as $domain => $value) {
-          $c = $charities[$domain];
-          if(!$c) { continue; }
+$text = array();
+foreach($donations as $domain => $value) {
+    $c = $charities[$domain];
+    if(!$c) { continue; }
 
-          $text[] = <<<"END"
+    $text[] = <<<"END"
 </tr><tr>
   <td class=charity-name>{$c->name}<br><span class=charity-url>
     (<a href="{$c->url}">{$domain}</a>)</span></td>
@@ -132,63 +141,63 @@ END;
     <input type="submit" value="Change">
     </form></td>
 END;
-          if($auth && $countdown > 0) $text[] = <<<"END"
+    if($auth && $countdown > 0) $text[] = <<<"END"
   <td class=charity-donate><a href="{$c->donate}" target="_blank">DONATE</a></td>
 END;
-      }
+}
 
-      echo "<table class=charity-table><tr>", PHP_EOL;
-      if(0 < count($text)) {
-          echo "<th colspan=4>Your Donations</th>", PHP_EOL;
-          echo "</tr><tr><th>Charity</th><th>Donation</th>", PHP_EOL;
-          foreach($text as $t) { echo $t; }
-      }
+echo "<table class=charity-table><tr>", PHP_EOL;
+if(0 < count($text)) {
+    echo "<th colspan=4>Your Donations</th>", PHP_EOL;
+    echo "</tr><tr><th>Charity</th><th>Donation</th>", PHP_EOL;
+    foreach($text as $t) { echo $t; }
+}
 
-      foreach($charities as $key => $rec) {
-          $keys[$key] = $key;
-          $recs[$key] = $rec;
-          $vals[$key] = $rec->value;
-      }
+foreach($charities as $key => $rec) {
+    $keys[$key] = $key;
+    $recs[$key] = $rec;
+    $vals[$key] = $rec->value;
+}
 
-      array_multisort($vals, SORT_DESC, SORT_NUMERIC,
-                      $keys, SORT_ASC, SORT_NUMERIC,
-                      $recs);
+array_multisort($vals, SORT_DESC, SORT_NUMERIC,
+                $keys, SORT_ASC, SORT_NUMERIC,
+                $recs);
 
-      echo "</tr><tr><th colspan=4>Popular Charities</th>", PHP_EOL;
-      echo "</tr><tr><th>Charity</th><th>Donations</th>", PHP_EOL;
+echo "</tr><tr><th colspan=4>Popular Charities</th>", PHP_EOL;
+echo "</tr><tr><th>Charity</th><th>Donations</th>", PHP_EOL;
 
-      $n = 0; $other_value = 0.0;
-      foreach($recs as $domain => $c) {
-          if(++$n > 20) { $other_value += $c->value; continue; }
+$n = 0; $other_value = 0.0;
+foreach($recs as $domain => $c) {
+    if(++$n > 20) { $other_value += $c->value; continue; }
 
-          echo <<<"END"
+    echo <<<"END"
 </tr><tr>
   <td class=charity-name>{$c->name}<br><span class=charity-url>
     (<a href="{$c->url}">{$domain}</a>)</span></td>
   <td class=charity-value align="center">&dollar;{$c->value}</td>
 END;
-          if($auth && $countdown > 0) echo <<<"END"
+    if($auth && $countdown > 0) echo <<<"END"
   <td class=charity-donate><a href="{$c->donate}" target="_blank">DONATE</a></td>
   <td class=charity-record><form action="record-donation.php" method="post">
     &dollar;<input type="number" name="value" min="0" step="0.01" required>
     <input type="hidden" name="domain" value="{$domain}">
     <input type="submit" value="Record Donation">
 END;
-          echo "</form></td>", PHP_EOL;
-      }
+    echo "</form></td>", PHP_EOL;
+}
 
-      if($other_value > 0.0) {
-          echo <<<"END"
+if($other_value > 0.0) {
+    echo <<<"END"
 </tr><tr>
   <td class=charity-name>Others</td>
   <td class=charity-value align="center">&dollar;{$other_value}</td>
 END;
-      }
+}
 
-      echo "</tr></table>", PHP_EOL;
+echo "</tr></table>", PHP_EOL;
 
-      if($auth) {
-          echo <<<"END"
+if($auth) {
+    echo <<<"END"
 <br>
 <form action="new-charity.php" method="post">
 <table><tr>
@@ -201,9 +210,8 @@ END;
 </tr></table>
 </form>
 END;
-      }
-
-    ?>
+}
+?>
     </td></tr></table>
 
     Sample code starts here!!!<br>
