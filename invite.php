@@ -8,7 +8,7 @@ $secret = "6LdtohcUAAAAANmK8OxxoRQhLDEUcrXA72mdXKvQ";
 function invitation($email="")
 {
     if($email) {
-        $link = "http://thecharitychain.org?email=" .
+        $link = "https://thecharitychain.org?email=" .
                 urlencode($email) . "&auth=" . gen_auth($email);
     } else {
         $link = "";
