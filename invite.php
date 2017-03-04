@@ -1,5 +1,9 @@
 <?php
 require_once "auth.php";
+require_once "recaptcha/src/autoload.php";
+
+$siteKey = "6LdtohcUAAAAABL79g-YlLX7xGELUVKZatW4W4uh";
+$secret = "6LdtohcUAAAAANmK8OxxoRQhLDEUcrXA72mdXKvQ";
 
 function invitation($email="")
 {
@@ -37,60 +41,85 @@ if($countdown <= 0) {
 $n = $_GET ? filter_var($_GET['n'], FILTER_SANITIZE_NUMBER_INT) : '';
 if($n <= 0) { $n = 1; }
 
-$found = FALSE;
-foreach($_POST as $arg => $value) {
-    if("email" == substr($arg,0,5)) {
-        $to = filter_var($value, FILTER_SANITIZE_EMAIL);
-        mail($to, "An Experiment in Charitable Giving", invitation($to));
-        $found = TRUE;
+if(isset($_POST['g-recaptcha-response'])) {
+
+    $response = $_POST['g-recaptcha-response'];
+    $recaptcha = new \ReCaptcha\ReCaptcha($secret);
+    $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
+    if($resp->isSuccess()) {
+
+        $found = FALSE;
+        foreach($_POST as $arg => $value) {
+            if("email" == substr($arg,0,5)) {
+                $to = filter_var($value, FILTER_SANITIZE_EMAIL);
+                if(!$to) { continue; }
+                mail($to,"An Experiment in Charitable Giving",invitation($to));
+                $found = TRUE;
+            }
+        }
+
+        if($found) {
+            header("Location: index.php");
+            exit;
+        }
     }
 }
 
-if($found) {
-    header("Location: index.php");
-    exit;
-}
-?>
-
-<html><body>
+echo <<<"END"
+<html>
+<head>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
 
 <form action="invite.php?n={$n}" method="post">
 <table width=800><tr>
-<?php
-    if($n <= 1) {
-        echo <<<"END"
+END;
+if($n <= 1) {
+    echo <<<"END"
   <td colspan=3><p>Use this form to invite someone to join The Charity
     Chain. Or use it to re-invite yourself, if you lost your invitation. Simply
     enter an email address below, click send, and a message like the one shown
     will be sent.</p></td>
 END;
-    } else {
-        echo <<<"END"
+} else {
+    echo <<<"END"
   <td colspan=3><p>Send invitations to {$n} of your friends. Simply enter
     their email addresses below, click send, and a message like the one shown
     will be sent to each person.</p></td>
 END;
-    }
-?>
+}
+echo <<<"END"
 </tr><tr>
   <td>&nbsp;</td>
-<?php
-    for($i=1; $i<=$n; ++$i) {
-        echo <<<"END"
+END;
+for($i=1; $i<=$n; ++$i) {
+    $value = isset($_POST["email{$i}"]) ? $_POST["email{$i}"] : "";
+    if($value) { $value = " value=\"{$value}\""; }
+    echo <<<"END"
 </tr><tr>
   <td width=25>To:</td>
-  <td><input type="email" name="email{$i}"></td>
+  <td><input type="email" name="email{$i}"{$value}></td>
 END;
-      if($i <= 1) {
-          echo <<<"END"
-  <td rowspan={$n}><input type="submit" value="Send"></td>
+  if($i <= 1) {
+      echo <<<"END"
+  <td rowspan={$n}>
+    <input type="submit" value="Send">
+    <div class="g-recaptcha" data-sitekey="6LdtohcUAAAAABL79g-YlLX7xGELUVKZatW4W4uh"></div>
+  </td>
 END;
-      }
-    }
-?>
+  }
+}
+echo <<<"END"
 </tr><tr>
-  <td colspan=3 width="800"><?php echo invitation(); ?></td>
+  <td colspan=3 width="800">
+END;
+echo invitation();
+echo <<<"END"
+</td>
 </tr></table>
 </form>
 
 </body></html>
+END;
+?>

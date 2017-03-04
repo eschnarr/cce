@@ -90,7 +90,7 @@ END;
       </div></td>
 
       <td><div class=about>
-          <a href="about.php">About CCE</a>
+          <a href="about.html">About CCE</a>
       </div></td>
 
     </tr></table>
@@ -193,7 +193,7 @@ END;
 <form action="new-charity.php" method="post">
 <table><tr>
   <td align="right">Charity URL:</td>
-  <td><input type="url" name="url" required></td>
+  <td><input type="text" name="url" required></td>
 </tr><tr>
   <td colspan=2 align="center">
     <input type="submit" value="Add Charity">

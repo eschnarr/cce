@@ -39,7 +39,7 @@ function load_charities()
          }
      }
 
-     fclose($fd);
+     if(isset($fd)) { fclose($fd); }
 
      return $charities;
 }
@@ -51,7 +51,7 @@ function save_charities($charities)
         fputcsv($fd, array($k, $c->url, $c->name, $c->donate, $c->value));
     }
 
-    fclose($fd);
+    if(isset($fd)) { fclose($fd); }
 
     return TRUE;
 }
@@ -60,13 +60,15 @@ function load_donations($email)
 {
     $donations = array();
 
-    if(FALSE !== ($fd = fopen(DATA_DIR."/{$email}", 'r'))) {
+    if(is_file(DATA_DIR."/{$email}") &&
+       FALSE !== ($fd = fopen(DATA_DIR."/{$email}", 'r')))
+    {
         while(FALSE !== ($csv = fgetcsv($fd))) {
             $donations[$csv[0]] = (float)$csv[1];
         }
     }
 
-    fclose($fd);
+    if(isset($fd)) { fclose($fd); }
 
     return $donations;
 }
@@ -77,7 +79,7 @@ function save_donations($email, $donations)
 
     foreach($donations as $k => $v) { fputcsv($fd, array($k, $v)); }
 
-    fclose($fd);
+    if(isset($fd)) { fclose($fd); }
 
     return TRUE;
 }

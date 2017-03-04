@@ -13,6 +13,7 @@
     }
 
     $url = filter_var($_POST['url'], FILTER_SANITIZE_URL);
+    if(!strpos($url,"://")) { $url = "http://{$url}"; }
     $domain = get_domain($url);
 
     $name = trim($_POST['name']);
@@ -21,7 +22,7 @@
     if($value < 0.0) { $value = 0.0; }
 
     if($domain) {
-        $do_update = $url && $name && $donate;
+        $do_update = $url && $name;
 
         $lock = fopen(LOCK_FILE, 'rw');
         flock($lock, $do_update ? LOCK_EX : LOCK_SH);
@@ -55,6 +56,20 @@
             exit;
         }
 
+        if($url && !$name) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            $s = curl_exec($ch);
+            curl_close($ch);
+
+            $matches = array();
+            if(preg_match("#<title>\s*([^<]*)\s*</title>#i", $s, $matches))
+            {
+                $name = $matches[1];
+            }
+        }
+
         flock($lock, LOCK_UN);
         fclose($lock);
     }
@@ -62,8 +77,7 @@
     if($c) {
         if(!$url) { $url = $c->url; }
         if(!$name) { $name = $c->name; }
-        if(!$donate) { $donate = $c->donate; }
-        if(!$donate) { $donate = $url; }
+        if(!$donate && $c->donate != $c->url) { $donate = $c->donate; }
     } else {
         $c = new Charity();
     }
@@ -80,7 +94,7 @@
   <td><input type="text" name="url" value="<?php echo "$url"; ?>" required></td>
 </tr><tr>
   <td align="right">URL for Donations:</td>
-  <td><input type="url" name="donate" value="<?php echo "$donate"; ?>" required></td>
+  <td><input type="url" name="donate" value="<?php echo "$donate"; ?>"></td>
 </tr><tr>
   <td align="right"><?php
     if($c->value > 0.0) { echo "New"; } else { echo "Initial"; }
