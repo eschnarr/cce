@@ -48,17 +48,23 @@ if(isset($_POST['g-recaptcha-response'])) {
     $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
     if($resp->isSuccess()) {
 
-        $found = FALSE;
+        $found = array();
         foreach($_POST as $arg => $value) {
             if("email" == substr($arg,0,5)) {
                 $to = filter_var($value, FILTER_SANITIZE_EMAIL);
-                if(!$to) { continue; }
-                mail($to,"An Experiment in Charitable Giving",invitation($to));
-                $found = TRUE;
+                if(!$to || $found[$to]) { continue; }
+                $found[$to] = TRUE;
+
+                $subject = "Invitation to join The Charity Chain";
+                $headers = "MIME-Version: 1.0\n";
+                $headers .= "Content-type: text/html; charset=iso-8859-1\n";
+                $headers .= "From: contact@thecharitychain.org\n";
+                $headers .= "X-Mailer: PHP/".phpversion();
+                mail($to, $subject, invitation($to), $headers);
             }
         }
 
-        if($found) {
+        if(count($found) > 0) {
             header("Location: index.php");
             exit;
         }
