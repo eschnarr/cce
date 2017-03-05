@@ -5,11 +5,11 @@ require_once "recaptcha/src/autoload.php";
 $siteKey = "6LdtohcUAAAAABL79g-YlLX7xGELUVKZatW4W4uh";
 $secret = "6LdtohcUAAAAANmK8OxxoRQhLDEUcrXA72mdXKvQ";
 
-function invitation($email="")
+function invitation($to="")
 {
-    if($email) {
+    if($to) {
         $link = "https://thecharitychain.org?email=" .
-                urlencode($email) . "&auth=" . gen_auth($email);
+                urlencode($to) . "&auth=" . gen_auth($to);
     } else {
         $link = "";
     }
@@ -41,6 +41,11 @@ if($countdown <= 0) {
 $n = $_GET ? filter_var($_GET['n'], FILTER_SANITIZE_NUMBER_INT) : '';
 if($n <= 0) { $n = 1; }
 
+$subject = $email
+    ? "Invitation from {$email} to join The Charity Chain"
+    : "Invitation to join The Charity Chain";
+if(_POST && $_POST['subject']) { $subject = trim($_POST['subject']); }
+
 if(isset($_POST['g-recaptcha-response'])) {
 
     $response = $_POST['g-recaptcha-response'];
@@ -50,12 +55,11 @@ if(isset($_POST['g-recaptcha-response'])) {
 
         $found = array();
         foreach($_POST as $arg => $value) {
-            if("email" == substr($arg,0,5)) {
+            if("to" == substr($arg,0,5)) {
                 $to = filter_var($value, FILTER_SANITIZE_EMAIL);
                 if(!$to || $found[$to]) { continue; }
                 $found[$to] = TRUE;
 
-                $subject = "Invitation to join The Charity Chain";
                 $headers = "MIME-Version: 1.0\n";
                 $headers .= "Content-type: text/html; charset=iso-8859-1\n";
                 $headers .= "From: contact@thecharitychain.org\n";
@@ -100,12 +104,12 @@ echo <<<"END"
   <td>&nbsp;</td>
 END;
 for($i=1; $i<=$n; ++$i) {
-    $value = isset($_POST["email{$i}"]) ? $_POST["email{$i}"] : "";
+    $value = isset($_POST["to{$i}"]) ? $_POST["to{$i}"] : "";
     if($value) { $value = " value=\"{$value}\""; }
     echo <<<"END"
 </tr><tr>
-  <td width=25>To:</td>
-  <td><input type="email" name="email{$i}"{$value}></td>
+  <td style="text-align:right" width=25>To:</td>
+  <td><input type="email" name="to{$i}"{$value} size=40></td>
 END;
   if($i <= 1) {
       echo <<<"END"
@@ -118,7 +122,12 @@ END;
 }
 echo <<<"END"
 </tr><tr>
-  <td colspan=3 width="800">
+  <td style="text-slign:right">Subject:</td><td colspan=2>
+    <input type="text" name="subject" value="{$subject}" size=80>
+  </td>
+</tr><tr>
+</tr><tr>
+  <td colspan=3 width="800"><p></p>
 END;
 echo invitation();
 echo <<<"END"

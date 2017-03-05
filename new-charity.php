@@ -12,13 +12,16 @@
         exit;
     }
 
-    $url = filter_var($_POST['url'], FILTER_SANITIZE_URL);
-    if(!strpos($url,"://")) { $url = "http://{$url}"; }
+    $url = !isset($_POST['url']) ? "" :
+        filter_var($_POST['url'], FILTER_SANITIZE_URL);
+    if($url && !strpos($url,"://")) { $url = "http://{$url}"; }
     $domain = get_domain($url);
 
-    $name = trim($_POST['name']);
-    $donate = filter_var($_POST['donate'], FILTER_SANITIZE_URL);
-    $value = (float)filter_var($_POST['value'], FILTER_SANITIZE_NUMBER_FLOAT);
+    $name = !isset($_POST['name']) ? "" : trim($_POST['name']);
+    $donate = !isset($_POST['donate']) ? "" :
+        filter_var($_POST['donate'], FILTER_SANITIZE_URL);
+    $value = !isset($_POST['value']) ? 0.0 :
+        (float)filter_var($_POST['value'], FILTER_SANITIZE_NUMBER_FLOAT);
     if($value < 0.0) { $value = 0.0; }
 
     if($domain) {
@@ -64,9 +67,9 @@
             curl_close($ch);
 
             $matches = array();
-            if(preg_match("#<title>\s*([^<]*)\s*</title>#i", $s, $matches))
-            {
-                $name = $matches[1];
+            $pattern = "#<\s*title( [^>]*)?>\s*([^<]*)\s*<\s*/\s*title\s*>#i";
+            if(preg_match($pattern, $s, $matches)) {
+                $name = $matches[2];
             }
         }
 
@@ -88,13 +91,13 @@
 <form action="new-charity.php" method="post">
 <table><tr>
   <td align="right">Charity Name:</td>
-  <td><input type="text" name="name" value="<?php echo "$name"; ?>" required></td>
+  <td><input type="text" name="name" value="<?php echo "$name"; ?>" size="80" required></td>
 </tr><tr>
   <td align="right">Charity URL:</td>
-  <td><input type="text" name="url" value="<?php echo "$url"; ?>" required></td>
+  <td><input type="text" name="url" value="<?php echo "$url"; ?>" size="80" required></td>
 </tr><tr>
   <td align="right">URL for Donations:</td>
-  <td><input type="url" name="donate" value="<?php echo "$donate"; ?>"></td>
+  <td><input type="url" name="donate" value="<?php echo "$donate"; ?>" size="80"></td>
 </tr><tr>
   <td align="right"><?php
     if($c->value > 0.0) { echo "New"; } else { echo "Initial"; }

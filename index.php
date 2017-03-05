@@ -136,7 +136,7 @@ foreach($donations as $domain => $value) {
   <td class=charity-name>{$c->name}<br><span class=charity-url>
     (<a href="{$c->url}">{$domain}</a>)</span></td>
   <td class=charity-record><form action="change-donation.php" method="post">
-    &dollar;<input type="number" name="value" min="0" step="0.01" value="{$value}" required>
+    &dollar;<input type="number" name="value" min="0" step="0.01" value="{$value}" size="10" required>
     <input type="hidden" name="domain" value="{$domain}">
     <input type="submit" value="Change">
     </form></td>
@@ -149,32 +149,33 @@ END;
 echo "<table class=charity-table><tr>", PHP_EOL;
 if(0 < count($text)) {
     echo "<th colspan=4>Your Donations</th>", PHP_EOL;
-    echo "</tr><tr><th>Charity</th><th>Donation</th>", PHP_EOL;
+    echo "</tr><tr><th width=400>Charity</th><th>Donation</th>", PHP_EOL;
     foreach($text as $t) { echo $t; }
 }
 
+foreach($charities as $key => $rec) { $tims[$key] = $rec->timestamp; }
+array_multisort($tims, SORT_DESC, SORT_NUMERIC, $charities);
+
+$n = 0; $recs = array();
 foreach($charities as $key => $rec) {
-    $keys[$key] = $key;
+    if(++$n > 20) { break; }
     $recs[$key] = $rec;
-    $vals[$key] = $rec->value;
 }
 
+foreach($recs as $key => $rec) { $vals[$key] = $rec->value; }
 array_multisort($vals, SORT_DESC, SORT_NUMERIC,
-                $keys, SORT_ASC, SORT_NUMERIC,
+                $tims, SORT_DESC, SORT_NUMERIC,
                 $recs);
 
 echo "</tr><tr><th colspan=4>Popular Charities</th>", PHP_EOL;
-echo "</tr><tr><th>Charity</th><th>Donations</th>", PHP_EOL;
+echo "</tr><tr><th width=400>Charity</th><th>Donations</th>", PHP_EOL;
 
-$n = 0; $other_value = 0.0;
 foreach($recs as $domain => $c) {
-    if(++$n > 20) { $other_value += $c->value; continue; }
-
     echo <<<"END"
 </tr><tr>
   <td class=charity-name>{$c->name}<br><span class=charity-url>
     (<a href="{$c->url}">{$domain}</a>)</span></td>
-  <td class=charity-value align="center">&dollar;{$c->value}</td>
+  <td class=charity-value style="text-align:center">&dollar;{$c->value}</td>
 END;
     if($auth && $countdown > 0) echo <<<"END"
   <td class=charity-donate><a href="{$c->donate}" target="_blank">DONATE</a></td>
@@ -184,14 +185,6 @@ END;
     <input type="submit" value="Record Donation">
 END;
     echo "</form></td>", PHP_EOL;
-}
-
-if($other_value > 0.0) {
-    echo <<<"END"
-</tr><tr>
-  <td class=charity-name>Others</td>
-  <td class=charity-value align="center">&dollar;{$other_value}</td>
-END;
 }
 
 echo "</tr></table>", PHP_EOL;
@@ -204,7 +197,7 @@ if($auth) {
   <td align="right">Charity URL:</td>
   <td><input type="text" name="url" required></td>
 </tr><tr>
-  <td colspan=2 align="center">
+  <td colspan=2 style="text-align:center">
     <input type="submit" value="Add Charity">
   </td>
 </tr></table>
