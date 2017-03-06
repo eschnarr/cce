@@ -22,6 +22,7 @@ if(isset($_GET['logout'])) {
     if($auth) { setcookie('auth', $auth); }
 }
 
+$message = "";
 $message_state = 'none';
 $new_charity_state = 'none';
 if(isset($_GET) && isset($_GET['message'])) {
@@ -39,7 +40,10 @@ if($auth && $countdown > 0 && isset($_POST['new-charity'])) {
     $donate = !isset($_POST['donate']) ? "" :
         filter_var($_POST['donate'], FILTER_SANITIZE_URL);
     $value = !isset($_POST['value']) ? 0.0 :
-        (float)filter_var($_POST['value'], FILTER_SANITIZE_NUMBER_FLOAT);
+        (float)filter_var($_POST['value'],
+                          FILTER_SANITIZE_NUMBER_FLOAT,
+                          FILTER_FLAG_ALLOW_FRACTION |
+                          FILTER_FLAG_ALLOW_THOUSAND);
     if($value < 0.0) { $value = 0.0; }
 }
 
@@ -122,7 +126,7 @@ if(isset($_POST) && isset($_POST['subject'])) {
     $subject = trim($_POST['subject']);
 }
 
-if(isset($message)) {
+if($message) {
     $new_charity_state = 'none';
     $message_state = 'block';
 }
@@ -147,7 +151,7 @@ END;
           grecaptcha.render('RecaptchaField2', {'sitekey' : '<?php echo $sitekey; ?>'});
        };
     </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer'></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
     <script type="text/javascript">
 <?php
 echo <<<"END"
@@ -179,6 +183,7 @@ echo <<<"END"
           setInterval(update_clock, 1000);
           update_clock();
       };
+
 END;
 ?>
     </script>
@@ -206,9 +211,11 @@ END;
 <?php
 if($countdown > 0) echo <<<"END"
             <a class="w3-button w3-hover-light-blue" onclick="document.getElementById('invite1').style.display='block'">Send an invitation</a>
+
 END;
 if($email) echo <<<"END"
-            <div style="display:inline;margin-left:20px;">Welcome {$email}</div> (<a href="index.php?logout">logout</a>)
+            <div style="display:inline;margin-left:20px;">Welcome {$email}</div> (<a href="?logout">logout</a>)
+
 END;
 ?>
           </div>
@@ -219,12 +226,14 @@ END;
 <?php
 if($email) echo <<<"END"
             <div>Welcome {$email}</div> (<a href="logout.php">logout</a>)
+
 END;
 ?>
             <a onclick="document.getElementById('id01').style.display='block'">About CCE</a>
 <?php
 if($countdown > 0) echo <<<"END"
             <br><a onclick="document.getElementById('invite1').style.display='block'">Send an invitation</a>
+
 END;
 ?>
           </div>
@@ -240,33 +249,41 @@ END;
 
           <p>Hello Good Samaritan,</p>
 
-          <p>By donating a small amount to your favorate charity, and inviting
-            others to do the same, you will begin a cascade of giving greater
-            than what you achieve by working alone. You can make a diference:
-            <span style="text-transform:uppercase">don't break the
-            chain</span>!</p>
-
 <?php
 if($auth) {
     echo <<<"END"
+          <p>You've been invited to join The Charity Chain, an experiment in
+            viral giving.  By donating to your favorite charities, and inviting
+            others to do the same, you will begin a cascade of giving greater
+            than you achieve by working alone. You can make a difference, so
+            <span style="text-transform:uppercase">don't break the
+            chain</span>!</p>
+
           <p>Three easy steps:</p><ol>
 
             <li>Make a donation to a charity listed below, or
               <a href="#add-charity">add your own</a></li>
 
-            <li>Tell us about your donation, so everyone can see the cumulative
-              effect of all this giving</li>
+            <li>Tell us about your donations, so we can show their cumulative
+              effect</li>
 
-            <li>Invite FIVE of your friends to also participate in the Charity Chain
+            <li>Invite FIVE of your friends to also participate in The Charity Chain
               [<a href="#" onclick="document.getElementById('invite5').style.display='block'">INVITE FRIENDS</a>]</li>
 
           </ol>
+
 END;
 } else {
     echo <<<"END"
+          <p>The Charity Chain is an experiment in viral giving.  By donating
+            to your favorite charities, and inviting others to do the same, you
+            can begin a cascade of giving greater than you achieve by working
+            alone. You can make a difference!</p>
+
           <p class="w3-center">
             <a href="#" onclick="document.getElementById('invite1').style.display='block'">
               Send yourself an invitation</a> to get started.</p>
+
 END;
 }
 ?>
@@ -284,16 +301,17 @@ foreach($donations as $domain => $value) {
     $c = $charities[$domain];
     if(!$c) { continue; }
 
-    $value = money_format("%i", $c->value);
-
+    $value = money_format("%i", $value);
     $rows[] = <<<"END"
           <div class="w3-row">
               <div class="w3-half">
                 <h4><b>{$c->name}</b></h4>
                 <a href="{$c->url}">{$domain}</a>
+
 END;
     if($c->url != $c->donate) $rows[] = <<<"END"
                 (<a href="{$c->donate}">donate</a>)
+
 END;
     $rows[] = <<<"END"
               </div>
@@ -305,6 +323,7 @@ END;
               </form>
               </div>
           </div>
+
 END;
 }
 
@@ -314,12 +333,14 @@ if(0 < count($rows)) {
 
           <h5>Your Donations</h5>
           <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+
 END;
 
     foreach($rows as $row) { echo $row; }
 
     echo <<<"END"
         </div>
+
 END;
 }
 ?>
@@ -354,21 +375,25 @@ foreach($recs as $domain => $c) {
               <div class="w3-quarter w3-padding-8">
               <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;{$value}</h3>
               </div>
+
 END;
     if($auth) {
-        $rows[] = '<div class="w3-half">';
+        $rows[] = '              <div class="w3-half">' . PHP_EOL;
     } else {
-        $rows[] = '<div class="w3-rest">';
+        $rows[] = '              <div class="w3-rest">' . PHP_EOL;
     }
     $rows[] = <<<"END"
                 <h4><b>{$c->name}</b></h4>
                 <a href="{$c->url}">{$domain}</a>
+
 END;
     if($c->url != $c->donate) $rows[] = <<<"END"
                 (<a href="{$c->donate}">donate</a>)
+
 END;
     $rows[] = <<<"END"
               </div>
+
 END;
     if($auth) $rows[] = <<<"END"
               <div class="w3-quarter" style="text-align:right;">
@@ -378,9 +403,11 @@ END;
                   <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
                 </form>
               </div>
+
 END;
     $rows[] = <<<"END"
             </div>
+
 END;
 }
 
@@ -390,12 +417,14 @@ if(0 < count($rows)) {
 
           <h5>Popular Charities</h5>
           <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+
 END;
 
     foreach($rows as $row) { echo $row; }
 
     echo <<<"END"
         </div>
+
 END;
 }
 ?>
@@ -404,12 +433,13 @@ END;
 if($auth) {
     echo <<<"END"
         <div id="add-charity" class="w3-section w3-center">
-          <form action="index.php" method="post">
+          <form action="." method="post">
             <input type="hidden" name="new-charity">
             Charity URL: <input type="text" name="url" required>
             <input type="submit" value="Add a charity">
           </form>
         </div>
+
 END;
 }
 ?>
@@ -512,19 +542,21 @@ echo <<<"END"
                <td><input type="email" name="to1"{$value} size=30></td>
                <td><input type="submit" value="Send"></td>
              </tr><tr>
-               <td style="text-slign:right">Subject:</td><td colspan=2>
+               <td style="text-align:right">Subject:</td><td colspan=2>
                  <input type="text" name="subject" value="{$subject}" size=45>
                </td>
              </tr><tr>
                <td colspan=3><hr></td>
              </tr><tr>
                <td colspan=3>
+
 END;
 echo invitation();
 echo <<<"END"
                </td>
              </tr></table>
            </form>
+
 END;
 ?>
         </div>
@@ -568,19 +600,21 @@ echo <<<"END"
                <td style="text-align:right" width=25>To:</td>
                <td><input type="email" name="to5"{$value} size=30></td>
              </tr><tr>
-               <td style="text-slign:right">Subject:</td><td colspan=2>
+               <td style="text-align:right">Subject:</td><td colspan=2>
                  <input type="text" name="subject" value="{$subject}" size=45>
                </td>
              </tr><tr>
                <td colspan=3><hr></td>
              </tr><tr>
                <td colspan=3>
+
 END;
 echo invitation();
 echo <<<"END"
                </td>
              </tr></table>
            </form>
+
 END;
 ?>
         </div>
@@ -592,7 +626,7 @@ END;
         <div class="w3-container">
            <span onclick="document.getElementById('new-charity').style.display='none'" class="w3-closebtn">&times;</span>
 
-           <form action="index.php" method="post">
+           <form action="." method="post">
              <input type="hidden" name="new-charity">
              <table><tr>
                  <td align="right">Charity Name:</td>

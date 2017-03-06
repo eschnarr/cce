@@ -7,7 +7,7 @@ $secret = "6LdtohcUAAAAANmK8OxxoRQhLDEUcrXA72mdXKvQ";
 
 if($countdown <= 0) {
     header('HTTP/1.1 303 See Other');
-    header("Location: index.php");
+    header("Location: .");
     exit;
 }
 
@@ -57,6 +57,6 @@ if(0 < count($found)) {
 }
 
 header('HTTP/1.1 303 See Other');
-header("Location: index.php{$message}");
+header("Location: .{$message}");
 exit;
 ?>
