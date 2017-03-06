@@ -225,14 +225,14 @@ END;
             </div>
 <?php
 if($email) echo <<<"END"
-            <div>Welcome {$email}</div> (<a href="logout.php">logout</a>)
+            <div>Welcome {$email} (<a href="?logout">logout</a>)</div>
 
 END;
 ?>
-            <a onclick="document.getElementById('id01').style.display='block'">About CCE</a>
+            <a href="#" onclick="document.getElementById('id01').style.display='block'">About CCE</a>
 <?php
 if($countdown > 0) echo <<<"END"
-            <br><a onclick="document.getElementById('invite1').style.display='block'">Send an invitation</a>
+            <br><a href="#" onclick="document.getElementById('invite1').style.display='block'">Send an invitation</a>
 
 END;
 ?>
