@@ -1,0 +1,779 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>The Charity Chain Experiment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>* {font-family: "Helvetica", sans-serif; line-height:20px; color:#444;}
+    a {color:#0000CC;}
+        
+    </style>
+    <script type="text/javascript">
+      var CaptchaCallback = function() {
+          grecaptcha.render('RecaptchaField1', {'sitekey' : '6LdtohcUAAAAABL79g-YlLX7xGELUVKZatW4W4uh'});
+          grecaptcha.render('RecaptchaField2', {'sitekey' : '6LdtohcUAAAAABL79g-YlLX7xGELUVKZatW4W4uh'});
+       };
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
+    <script type="text/javascript">
+      var timer=3397635;
+      function update_clock() {
+          var days, hours, minutes, seconds;
+          days = parseInt(timer / (60 * 60 * 24), 10);
+          hours = parseInt(timer / (60 * 60) % 24, 10);
+          minutes = parseInt(timer / 60 % 60, 10);
+          seconds = parseInt(timer % 60, 10);
+
+          days = days < 10 ? "0" + days : days;
+          hours = hours < 10 ? "0" + hours : hours;
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          if(--timer >= 0) {
+              text = days + " days " + hours + "h " + minutes + "m " + seconds + "s";
+              document.querySelector('#clock1').textContent =
+              document.querySelector('#clock2').textContent = text;
+          } else {
+              document.querySelector('#countdown1').textContent =
+              document.querySelector('#countdown2').textContent =
+              "The event has ended!";
+          }
+      }
+
+      window.onload = function() {
+          setInterval(update_clock, 1000);
+          update_clock();
+      };
+      
+	
+    </script>
+  </head>
+
+  <body class="w3-indigo">
+    <div class="w3-content w3-margin-top w3-padding w3-white w3-card-4 w3-padding-32" style="max-width:900px;">
+
+      <div class="w3-row">
+        <div class="w3-twothird">
+          <h1 class="title">The Charity Chain</h1>
+          <h3 class="subtitle w3-padding-8">$150.00 donated so far!</h3>
+          <div class="w3-hide-medium w3-hide-large w3-text-gray">
+            <div id="countdown1">This event ends in <div id="clock1" style="display:inline;">00 days 00h 00m 00s</div> </div>
+          </div>
+        </div>
+
+        <div class="w3-third w3-padding-16 w3-hide-small" style="text-align:center;">
+          <div id="countdown2">This event ends in <h4><div id="clock2">00 days 00h 00m 00s</div></h4> </div>
+        </div>
+
+        <div>
+          <div style="margin-top:30px;" class="w3-hide-small">
+            <a class="w3-button w3-hover-light-blue" onclick="document.getElementById('about').style.display='block'">About CCE</a>
+            <a class="w3-button w3-hover-light-blue" onclick="document.getElementById('invite1').style.display='block'">Send an invitation</a>
+            <div style="display:inline;margin-left:20px;">Welcome glenn.loosaustin@gmail.com</div> (<a href="?logout">logout</a>)
+          </div>
+          <div class="w3-hide-medium w3-hide-large">
+            <div class="w3-row">
+              <div class="w3-section w3-bottombar w3-border-light-blue"></div>
+            </div>
+            <div style="display:inline;">Welcome glenn.loosaustin@gmail.com</div> (<a href="logout.php">logout</a>)<br>
+            <a href="#" onclick="document.getElementById('about').style.display='block'">About CCE</a>
+            <br><a href="#" onclick="document.getElementById('invite1').style.display='block'">Send an invitation</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="w3-row">
+        <div class="w3-section w3-bottombar w3-border-light-blue"></div>
+      </div>
+
+      <div class="w3-section">
+        <div>
+
+          <p>Hello Good Samaritan,</p>
+
+          <p>You've been invited to join <b>The Charity Chain</b>, an experiment in
+            viral giving.  By donating to your favorite charities, and inviting
+            others to do the same, you will begin a cascade of giving greater
+            than you achieve by working alone. You can make a difference, so
+            <span style="text-transform:uppercase">don't break the
+            chain</span>!</p>
+
+          <p>Three easy steps:</p><ol>
+
+            <li>Make a <b>donation</b> to a charity listed below, or
+              <a href="#add-charity">add your own</a></li>
+
+            <li><b>Tell us</b> about your donations, so we can show their cumulative
+              effect</li>
+
+            <li><a href="#" onclick="document.getElementById('invite5').style.display='block'">Invite FIVE of your friends</a> to also participate in <b>The Charity Chain</b>
+              </li>
+
+          </ol>
+        </div>
+      </div>
+
+      <div class="w3-row">
+          <div class="w3-section w3-bottombar w3-border-light-blue"></div>
+      </div>
+
+        <div class="w3-section">
+
+          <h5>Your Donations</h5>
+          <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+          <div class="w3-row">
+              <div class="w3-half">
+                <h4><b>American Civil Liberties Union</b></h4>
+                <a href="https://www.aclu.org/">www.aclu.org</a>
+                (<a href="https://action.aclu.org/donate-aclu?ms=web_horiz_nav_hp">donate</a>)
+              </div>
+              <div class="w3-half" style="text-align:right;">
+              <form action="change-donation.php" method="post">
+                $ <input type="number" name="value" value="50.00" min="0" step="0.01" required style="width:120px">
+                <input type="hidden" name="domain" value="www.aclu.org">
+                <input type="submit" value="Change" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+              </form>
+              </div>
+          </div>
+        </div>
+
+        <div class="w3-section">
+
+          <h5>Popular Charities</h5>
+          <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;100.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Electronic Frontier Foundation</b></h4>
+                <a href="https://www.eff.org/">www.eff.org</a>
+                (<a href="https://supporters.eff.org/donate/button">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.eff.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;50.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>American Civil Liberties Union</b></h4>
+                <a href="https://www.aclu.org/">www.aclu.org</a>
+                (<a href="https://action.aclu.org/donate-aclu?ms=web_horiz_nav_hp">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.aclu.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>American Red Cross</b></h4>
+                <a href="http://www.redcross.org/">www.redcross.org</a>
+                (<a href="https://www.redcross.org/donate/donation">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.redcross.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Madison Metropolitan School District</b></h4>
+                <a href="https://www.madison.k12.wi.us/">www.madison.k12.wi.us</a>
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.madison.k12.wi.us">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Wisconsin Bike Fed</b></h4>
+                <a href="http://www.bfw.org/">www.bfw.org</a>
+                (<a href="http://www.bfw.org/join/supportdonate/">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.bfw.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>UW Health - American Family Children's Hospital</b></h4>
+                <a href="http://www.uwhealthkids.org/">www.uwhealthkids.org</a>
+                (<a href="http://connect.uwhealth.org/site/Donation2?df_id=3902&3902.donation=form1">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.uwhealthkids.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>UNICEF USA</b></h4>
+                <a href="https://www.unicefusa.org/">www.unicefusa.org</a>
+                (<a href="https://www.unicefusa.org/donate/help-save-childrens-lives/29161?ms=ref_dig_2015_web_header_donate">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.unicefusa.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>The Salvation Army</b></h4>
+                <a href="http://www.salvationarmyusa.org/">www.salvationarmyusa.org</a>
+                (<a href="https://give.salvationarmyusa.org/site/SPageNavigator/national_donation_form.html?amt=">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.salvationarmyusa.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>St. Jude Children's Research Hospital</b></h4>
+                <a href="https://www.stjude.org/">www.stjude.org</a>
+                (<a href="https://www.stjude.org/donate-now">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.stjude.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Second Harvest Foodbank Madison</b></h4>
+                <a href="http://www.secondharvestmadison.org/">www.secondharvestmadison.org</a>
+                (<a href="https://donate.secondharvestmadison.org/">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.secondharvestmadison.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Ronald McDonald House Charities</b></h4>
+                <a href="http://www.rmhc.org/">www.rmhc.org</a>
+                (<a href="http://support.rmhc.org/site/PageNavigator/pw/Donation_Landing.html">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.rmhc.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>The Playing For Change Foundation</b></h4>
+                <a href="http://playingforchange.org/">playingforchange.org</a>
+                (<a href="http://playingforchange.org/donate/">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="playingforchange.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Planned Parenthood - Wisconsin</b></h4>
+                <a href="https://www.plannedparenthood.org/planned-parenthood-wisconsin">www.plannedparenthood.org/planned-parenthood-wisconsin</a>
+                (<a href="https://secure.ppaction.org/site/Donation2?df_id=12833&12833.donation=form1&s_src=Evergreen_c3_PPDirected_banner&s_designeeid=1159">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.plannedparenthood.org/planned-parenthood-wisconsin">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Nature Conservancy</b></h4>
+                <a href="https://www.nature.org/">www.nature.org</a>
+                (<a href="https://support.nature.org/site/Donation2?10420.donation=form1&df_id=10420&intc=nature.tnav.button.donate">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.nature.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>National Park Foundation</b></h4>
+                <a href="https://www.nationalparks.org/">www.nationalparks.org</a>
+                (<a href="https://donate.nationalparks.org/ea-action/action?ea.client.id=1957&ea.campaign.id=53869">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.nationalparks.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Make-A-Wish® America</b></h4>
+                <a href="http://wish.org/">wish.org</a>
+                (<a href="https://secure2.wish.org/site/SPageServer?pagename=donate_now&chid=100-000">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="wish.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Juvenile Diabetes Research Foundation</b></h4>
+                <a href="http://www.jdrf.org/">www.jdrf.org</a>
+                (<a href="https://www2.jdrf.org/site/Donation2?2376.donation=form1&df_id=2376&s_src=jdrf.org&s_subsrc=siteMenuButton">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.jdrf.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Rock N' Robots FIRST Team 3692 - Parker High School Engineering & Computer Science</b></h4>
+                <a href="https://sites.google.com/site/phsengineers/robotics">sites.google.com/site/phsengineers/robotics</a>
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="sites.google.com/site/phsengineers/robotics">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Goodman Community Center</b></h4>
+                <a href="http://www.goodmancenter.org/">www.goodmancenter.org</a>
+                (<a href="http://www.goodmancenter.org/donate">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="www.goodmancenter.org">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+          <div class="w3-row">
+              <div class="w3-quarter w3-padding-8">
+              <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;0.00</h3>
+              </div>
+              <div class="w3-half">
+                <h4><b>Empty Stocking Club</b></h4>
+                <a href="http://host.madison.com/special-section/empty_stocking_club/">host.madison.com/special-section/empty_stocking_club</a>
+                (<a href="https://host.madison.com/forms/online_services/empty-stocking/">donate</a>)
+              </div>
+              <div class="w3-quarter" style="text-align:right;">
+                <form action="change-donation.php" method="post">
+                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                  <input type="hidden" name="domain" value="host.madison.com/special-section/empty_stocking_club">
+                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                </form>
+              </div>
+            </div>
+        </div>
+
+        <div id="add-charity" class="w3-section w3-center">
+          <form action="." method="post">
+            <input type="hidden" name="new-charity">
+            Charity URL: <input type="text" name="url" required>
+            <input type="submit" value="Add a charity">
+          </form>
+        </div>
+
+      <div class="w3-row">
+        <div class="w3-section w3-bottombar w3-border-light-blue"></div>
+      </div>
+      <div class="w3-row w3-center"><a href="mailto:contact@thecharitychain.org">contact@thecharitychain.org</a></div>
+
+		<div>Glenn Debugging: <a href="#" onClick="document.getElementById('new-charity').style.display='block'">Show Add Charity Popup</a></div>
+
+    </div>
+
+    <div id="about" class="w3-modal" onClick="closeIfOutside('aboutContainer')" >
+      <div class="w3-modal-content" style="width:600px;" id="aboutContainer">
+        <div class="w3-container">
+
+          <div class="w3-section">
+            <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+              <div class="w3-row">
+
+                <h4>About the Charity Chain Experiment<span onclick="document.getElementById('about').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-blue" style="margin-top:-0.15em;">&times;</span>
+</h4>
+
+                <p>The <b>Charity Chain Experiment</b> (CCE) was conceived as part of
+                  a leadership challenge assignment in a management training
+                  course. The assignment was to take $100 start-up capital, and
+                  generate a greater value of good deeds for the community and
+                  the world. So I invested capital in a domain name and other
+                  virtual supplies, and enlisted the help of friends to develop
+                  this site.</p>
+
+                <p>The site's purpose is to <b>encourage people to make charitable
+                  donations now</b>, rather than waiting for later, or not donating
+                  at all. It's not specific: There are many good charities out
+                  there that need support. This site simply connects people to
+                  worthy charities. And like a chain letter, its membership
+                  grows expoentially.</p>
+
+                <p>We ask people to <b>tell us how much they've donated</b>, so we can
+                  show the total value of charitable donations generated. You
+                  can visit this site again later to see how the total has
+                  grown.</p>
+
+                <p>Thank you for your support,<br>Eric Schnarr &ndash; CCE
+                  Inventor</p>
+
+              </div>
+
+              <hr>
+
+              <div class="w3-row">
+                <h5>People behind the CCE</h5>
+              </div>
+
+              <div class="w3-row">
+                <div class="w3-half w3-padding-small w3-right-align">CCE Inventor &amp; Site Creator:</div>
+                <div class="w3-half w3-padding-small">Eric Schnarr</div>
+              </div>
+              <div class="w3-row">
+                <div class="w3-half w3-padding-small w3-right-align">Web Designer:</div>
+                <div class="w3-half w3-padding-small">Glenn Loos-Austin</div>
+              </div>
+              <div class="w3-row">
+                <div class="w3-half w3-padding-small w3-right-align">Web Hosting:</div>
+                <div class="w3-half w3-padding-small">Brian Casey</div>
+              </div>
+
+              <hr>
+
+              <div class="w3-row w3-center"><a href="mailto:contact@thecharitychain.org">contact@thecharitychain.org</a></div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="invite1" class="w3-modal">
+      <div class="w3-modal-content" style="width:600px;">
+        <div class="w3-container">
+           <form action="invite.php" method="post">
+
+          <div class="w3-section">
+              <div class="w3-row">
+
+                <h4>Invite Someone
+					<div class="w3-tooltip" style="display:inline;">
+						<span onclick="document.getElementById('invite1').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-light-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
+					<span class="w3-text w3-tag w3-closebtn w3-white w3-text-red w3-large" style="margin-top:-0.10em;">Cancel</span>
+					</div>
+				</h4>
+
+               <p>Use this form to invite someone to join <b>The
+                 Charity Chain</b>. Or use it to re-invite yourself, if you lost
+                 your invitation. Simply enter an email address below, click
+                 send, and a message like the one shown will be sent.</p>
+
+			<hr>
+			</div>
+              <div class="w3-row" align="center">
+
+                 <div id="RecaptchaField1"></div>
+
+			</div>
+              <div class="w3-row w3-padding-16">
+               <div class="w3-threequarter">
+               <div class="w3-row">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+               	  <input type="email" name="to1" size=38>
+             </div>
+             <div class="w3-row w3-padding-4">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">Subject:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">Subject:</div> 
+                 <input type="text" name="subject" value="An invitation from glenn.loosaustin@gmail.com" size=38>
+                 </div>
+            </div>
+                 <div class="w3-quarter" align="center">
+                 <input type="submit" class="w3-button w3-hover-light-blue" value="Send" style="margin-top:10px;">
+                 </div>
+			</div>
+              <div class="w3-row">
+
+            <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+
+<p>Welcome,</p>
+
+<p>You've been invited to join <b>The Charity Chain</b>, an experiment in viral
+  giving. By donating to your favorite charities, and inviting others to do the
+  same, you will begin a cascade of donations greater than you achieve by
+  working alone. <b>You can make a diference.</b></p>
+
+<p>Below is your personal ticket to join The Charity Chain. <b>Click on the ticket
+  get started.</b></p>
+
+<p>&lt;&lt;ticket&gt;&gt;</p>
+
+<p>Thank You,<br>The Charity Chain</p>
+
+             
+            </div>
+            </div>
+            </div>
+           </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="invite5" class="w3-modal">
+      <div class="w3-modal-content" style="width:600px;">
+        <div class="w3-container">
+           <form action="invite.php" method="post">
+
+          <div class="w3-section">
+              <div class="w3-row">
+
+                <h4>Send Invitations
+					<div class="w3-tooltip" style="display:inline;">
+						<span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-light-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
+					<span class="w3-text w3-tag w3-closebtn w3-white w3-text-red w3-large" style="margin-top:-0.10em;">Cancel</span>
+					</div>
+				</h4>
+
+               <p>Send invitations to up to <b>five of your
+                 friends.</b> Simply enter their email addresses below, click send,
+                 and a message like the one shown will be sent to each
+                 person.</p>
+
+			<hr>
+			</div>
+              <div class="w3-row" align="center">
+
+                 <div id="RecaptchaField1"></div>
+
+			</div>
+              <div class="w3-row w3-padding-16">
+               <div class="w3-threequarter">
+               <div class="w3-row w3-padding-4">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+               	  <input type="email" name="to1" size=38>
+             </div>
+
+               <div class="w3-row w3-padding-4">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+               	  <input type="email" name="to2" size=38>
+             </div>
+               <div class="w3-row w3-padding-4">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+               	  <input type="email" name="to3" size=38>
+             </div>
+               <div class="w3-row w3-padding-4">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+               	  <input type="email" name="to4" size=38>
+             </div>
+               <div class="w3-row w3-padding-4">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+               	  <input type="email" name="to5" size=38>
+             </div>
+
+             <div class="w3-row w3-padding-4">
+               <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">Subject:</div> 
+               <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">Subject:</div> 
+                 <input type="text" name="subject" value="An invitation from glenn.loosaustin@gmail.com" size=38>
+                 </div>
+            </div>
+                 <div class="w3-quarter" align="center">
+                 <input type="submit" class="w3-button w3-hide-small w3-hover-light-blue" value="Send" style="margin-top:80px;">
+                 <input type="submit" class="w3-button w3-hide-medium w3-hide-large w3-hover-light-blue" value="Send" style="margin-top:10px;">
+                 </div>
+			</div>
+              <div class="w3-row">
+
+            <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+
+<p>Welcome,</p>
+
+<p>You've been invited to join <b>The Charity Chain</b>, an experiment in viral
+  giving. By donating to your favorite charities, and inviting others to do the
+  same, you will begin a cascade of donations greater than you achieve by
+  working alone. <b>You can make a diference.</b></p>
+
+<p>Below is your personal ticket to join The Charity Chain. <b>Click on the ticket
+  get started.</b></p>
+
+<p>&lt;&lt;ticket&gt;&gt;</p>
+
+<p>Thank You,<br>The Charity Chain</p>
+
+             
+            </div>
+            </div>
+            </div>
+           </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="new-charity" class="w3-modal" style="display:none">
+      <div class="w3-modal-content" style="width:600px;">
+        <div class="w3-container">
+           <span onclick="document.getElementById('new-charity').style.display='none'" class="w3-closebtn">&times;</span>
+
+           <form action="." method="post">
+             <input type="hidden" name="new-charity">
+             <table><tr>
+                 <td align="right">Charity Name:</td>
+                 <td><input type="text" name="name" value="" size="80" required></td>
+               </tr><tr>
+                 <td align="right">Charity URL:</td>
+                 <td><input type="text" name="url" value="" size="80" required></td>
+               </tr><tr>
+                 <td align="right">URL for Donations:</td>
+                 <td><input type="url" name="donate" value="" size="80"></td>
+               </tr><tr>
+                 <td align="right">
+                   Initial                   Donation:
+                 </td>
+                 <td>&dollar;<input type="number" name="value" step="0.01"
+                     value="">
+                 </td>
+               </tr><tr>
+                 <td colspan=2 align="center"><input type="submit"
+                     value="Add Charity">
+                 </td>
+             </tr></table>
+           </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="message" class="w3-modal" style="display:none">
+      <div class="w3-modal-content" style="width:600px;">
+        <div class="w3-container">
+           <a href="." class="w3-closebtn">&times;</a>
+          <p></p>
+          <a href=".">Close</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
