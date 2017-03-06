@@ -127,6 +127,9 @@ if(isset($message)) {
     $message_state = 'block';
 }
 
+$contact = <<<"END"
+<a href="mailto:contact@thecharitychain.org">contact@thecharitychain.org</a>
+END;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -189,12 +192,12 @@ END;
           <h1 class="title">The Charity Chain</h1>
           <h3 class="subtitle w3-padding-8">$<?php echo money_format("%i", $total_value); ?> donated so far!</h3>
           <div class="w3-hide-medium w3-hide-large w3-text-gray">
-            <div id="countdown1">Time until event ends: <div id="clock1" style="display:inline;">00 days 00h 00m 00s</div> </div>
+            <div id="countdown1">Event ends in <div id="clock1" style="display:inline;">00 days 00h 00m 00s</div> </div>
           </div>
         </div>
 
         <div class="w3-third w3-padding-16 w3-hide-small" style="text-align:center;">
-          <div id="countdown2">Time until event ends<h4><div id="clock2">00 days 00h 00m 00s</div></h4> </div>
+          <div id="countdown2">Event ends in <h4><div id="clock2">00 days 00h 00m 00s</div></h4> </div>
         </div>
 
         <div>
@@ -248,7 +251,8 @@ if($auth) {
     echo <<<"END"
           <p>Three easy steps:</p><ol>
 
-            <li>Make a donation to a charity listed below, or add your own</li>
+            <li>Make a donation to a charity listed below, or
+              <a href="#add-charity">add your own</a></li>
 
             <li>Tell us about your donation, so everyone can see the cumulative
               effect of all this giving</li>
@@ -297,7 +301,7 @@ END;
               <form action="change-donation.php" method="post">
                 $ <input type="number" name="value" value="{$value}" min="0" step="0.01" required style="width:120px">
                 <input type="hidden" name="domain" value="{$domain}">
-                <input type="submit" value="Update" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+                <input type="submit" value="Change" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
               </form>
               </div>
           </div>
@@ -399,16 +403,21 @@ END;
 <?php
 if($auth) {
     echo <<<"END"
-        <div class="w3-section">
+        <div id="add-charity" class="w3-section w3-center">
           <form action="index.php" method="post">
             <input type="hidden" name="new-charity">
             Charity URL: <input type="text" name="url" required>
-            <input type="submit" value="Add Charity">
+            <input type="submit" value="Add a charity">
           </form>
         </div>
 END;
 }
 ?>
+
+      <div class="w3-row">
+        <div class="w3-section w3-bottombar w3-border-light-blue"></div>
+      </div>
+      <div class="w3-row w3-center"><?php echo "{$contact}"; ?></div>
 
     </div>
 
@@ -423,13 +432,13 @@ END;
 
                 <h5>About the Charity Chain Experiment</h5>
 
-                <p>The Charity Chain Experiment (CCE) was conceived for a
-                  leadership challenge assignment, part of a recent management
-                  training course. The assignment was to take $100 start-up
-                  capital, and generate a greater value of good deeds for the
-                  community and the world. So I invested capital in a domain
-                  name and other virtual supplies, and enlisted the help of
-                  friends to develop this site.</p>
+                <p>The Charity Chain Experiment (CCE) was conceived as part of
+                  a leadership challenge assignment in a management training
+                  course. The assignment was to take $100 start-up capital, and
+                  generate a greater value of good deeds for the community and
+                  the world. So I invested capital in a domain name and other
+                  virtual supplies, and enlisted the help of friends to develop
+                  this site.</p>
 
                 <p>The site's purpose is to encourage people to make charitable
                   donations now, rather than waiting for later, or not donating
@@ -441,11 +450,9 @@ END;
                 <p>We ask people to tell us how much they've donated, so we can
                   show the total value of charitable donations generated. You
                   can visit this site again later to see how the total has
-                  grown. Like my management training course, this experiment
-                  ends in April, after which it will stop growing and recording
-                  new donations.</p>
+                  grown.</p>
 
-                <p>Thank you for your support,<br>&mdash;Eric Schnarr, CCE
+                <p>Thank you for your support,<br>Eric Schnarr &ndash; CCE
                   Inventor</p>
 
               </div>
@@ -471,9 +478,7 @@ END;
 
               <hr>
 
-              <div class="w3-row w3-center">
-                <a href="mailto:contact@thecharitychain.org">contact@thecharitychain.org</a>
-              </div>
+              <div class="w3-row w3-center"><?php echo "{$contact}"; ?></div>
 
             </div>
           </div>
@@ -517,12 +522,6 @@ echo <<<"END"
 END;
 echo invitation();
 echo <<<"END"
-               </td>
-             </tr><tr>
-               <td colspan=3><hr></td>
-             </tr><tr>
-               <td colspan=3 align="center">
-                 <a href="mailto:contact@thecharitychain.org">contact@thecharitychain.org</a>
                </td>
              </tr></table>
            </form>
@@ -579,12 +578,6 @@ echo <<<"END"
 END;
 echo invitation();
 echo <<<"END"
-               </td>
-             </tr><tr>
-               <td colspan=3><hr></td>
-             </tr><tr>
-               <td colspan=3 align="center">
-                 <a href="mailto:contact@thecharitychain.org">contact@thecharitychain.org</a>
                </td>
              </tr></table>
            </form>
