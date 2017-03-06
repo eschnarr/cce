@@ -17,8 +17,8 @@ END;
 
 <p>You've been invited to join The Charity Chain, an experiment in viral
   giving. By donating a small amount to your favorate charity, and inviting
-  others to do the same, you begin a cascade of donations greater than you can
-  achieve by working alone. You can make a diference.</p>
+  others to do the same, you will begin a cascade of donations greater than
+  what you achieve by working alone. You can make a diference.</p>
 
 <p>Below is your personal ticket to join The Charity Chain. Click on the ticket
   get started.</p>

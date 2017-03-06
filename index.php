@@ -22,6 +22,12 @@ if(isset($_GET['logout'])) {
     if($auth) { setcookie('auth', $auth); }
 }
 
+$message_state = 'none';
+$new_charity_state = 'none';
+if(isset($_GET) && isset($_GET['message'])) {
+    $message = urldecode($_GET['message']);
+}
+
 $domain = ""; $name = ""; $url = ""; $donate = "";
 if($auth && $countdown > 0 && isset($_POST['new-charity'])) {
     $url = !isset($_POST['url']) ? "" :
@@ -46,13 +52,12 @@ $charities = load_charities();
 $donations = $email ? load_donations($email) : array();
 
 $newC = NULL;
-$newC_exists = false;
-$new_charity_state = 'none';
+$newC_exists = FALSE;
 if($domain) {
 
-    $newC = $charities[$domain];
+    $newC = isset($charities[$domain]) ? $charities[$domain] : FALSE;
     if(!$newC) { $newC = new Charity(); }
-    else { $newC_exists = true; }
+    else { $newC_exists = TRUE; }
 
     $new_charity_state = 'block';
 
@@ -70,7 +75,11 @@ if($domain) {
 
         $charities[$domain] = $newC;
         save_charities($charities);
-        $new_charity_state = 'none';
+
+        $message = "Charity saved.";
+        if($value > 0.0) {
+            $message .= " $".money_format("%i",$value)." donation recorded.";
+        }
     }
 }
 
@@ -104,7 +113,6 @@ foreach($charities as $c) {
     $total_value += $c->value;
 }
 
-$end_message = "The event has ended!";
 $sitekey = "6LdtohcUAAAAABL79g-YlLX7xGELUVKZatW4W4uh";
 
 $subject = $email
@@ -112,6 +120,11 @@ $subject = $email
     : "Invitation to join The Charity Chain";
 if(isset($_POST) && isset($_POST['subject'])) {
     $subject = trim($_POST['subject']);
+}
+
+if(isset($message)) {
+    $new_charity_state = 'none';
+    $message_state = 'block';
 }
 
 ?>
@@ -154,7 +167,8 @@ echo <<<"END"
               document.querySelector('#clock2').textContent = text;
           } else {
               document.querySelector('#countdown1').textContent =
-              document.querySelector('#countdown2').textContent = '{$end_message}';
+              document.querySelector('#countdown2').textContent =
+              "The event has ended!";
           }
       }
 
@@ -162,12 +176,6 @@ echo <<<"END"
           setInterval(update_clock, 1000);
           update_clock();
       };
-
-      function getElementHTTP(element, url) {
-          var xmlHttp = new XMLHttpRequest();
-          xmlHttp.open("GET", url, false); xmlHttp.send(null);
-          document.getElementById(element).innerHTML=xmlHttp.responseText;
-      }
 END;
 ?>
     </script>
@@ -229,10 +237,11 @@ END;
 
           <p>Hello Good Samaritan,</p>
 
-          <p>This is no ordinary chain letter. By donating a small amount to
-            your favorate charity, and inviting others to do the same, you
-            begin a cascade of giving greater than you can achieve by working
-            alone. You can make a diference: DON'T BREAK THE CHAIN!</p>
+          <p>By donating a small amount to your favorate charity, and inviting
+            others to do the same, you will begin a cascade of giving greater
+            than what you achieve by working alone. You can make a diference:
+            <span style="text-transform:uppercase">don't break the
+            chain</span>!</p>
 
 <?php
 if($auth) {
@@ -590,33 +599,44 @@ END;
         <div class="w3-container">
            <span onclick="document.getElementById('new-charity').style.display='none'" class="w3-closebtn">&times;</span>
 
-<form action="index.php" method="post">
-<input type="hidden" name="new-charity">
-<table><tr>
-  <td align="right">Charity Name:</td>
-  <td><input type="text" name="name" value="<?php echo "$name"; ?>" size="80" required></td>
-</tr><tr>
-  <td align="right">Charity URL:</td>
-  <td><input type="text" name="url" value="<?php echo "$url"; ?>" size="80" required></td>
-</tr><tr>
-  <td align="right">URL for Donations:</td>
-  <td><input type="url" name="donate" value="<?php echo "$donate"; ?>" size="80"></td>
-</tr><tr>
-  <td align="right"><?php
-    if($c->value > 0.0) { echo "New"; } else { echo "Initial"; }
-  ?> Donation:</td>
-  <td>&dollar;<input type="number" name="value" step="0.01"
-      value="<?php if($value > 0.0) { echo "$value"; } ?>"></td>
-</tr><tr>
-  <td colspan=2 align="center"><input type="submit" value="<?php
-    if($newC_exists) { echo "Update"; } else { echo "Add"; }
-  ?> Charity"></td>
-</tr></table>
-</form>
+           <form action="index.php" method="post">
+             <input type="hidden" name="new-charity">
+             <table><tr>
+                 <td align="right">Charity Name:</td>
+                 <td><input type="text" name="name" value="<?php echo "$name"; ?>" size="80" required></td>
+               </tr><tr>
+                 <td align="right">Charity URL:</td>
+                 <td><input type="text" name="url" value="<?php echo "$url"; ?>" size="80" required></td>
+               </tr><tr>
+                 <td align="right">URL for Donations:</td>
+                 <td><input type="url" name="donate" value="<?php echo "$donate"; ?>" size="80"></td>
+               </tr><tr>
+                 <td align="right">
+                   <?php echo ($c->value > 0.0 ? "New" : "Initial"); ?>
+                   Donation:
+                 </td>
+                 <td>&dollar;<input type="number" name="value" step="0.01"
+                     value="<?php echo ($value > 0.0 ? "$value" : ""); ?>">
+                 </td>
+               </tr><tr>
+                 <td colspan=2 align="center"><input type="submit"
+                     value="<?php echo ($newC_exists ?  "Update" : "Add"); ?> Charity">
+                 </td>
+             </tr></table>
+           </form>
 
         </div>
       </div>
     </div>
 
+    <div id="message" class="w3-modal" style="<?php echo "display:{$message_state}" ?>">
+      <div class="w3-modal-content" style="width:600px;">
+        <div class="w3-container">
+           <a href="." class="w3-closebtn">&times;</a>
+          <p><?php echo "{$message}"; ?></p>
+          <a href=".">Close</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

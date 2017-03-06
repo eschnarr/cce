@@ -3,11 +3,13 @@
     require_once "db.php";
 
     if($countdown <= 0) {
+        header('HTTP/1.1 303 See Other');
         header("Location: index.php");
         exit;
     }
 
     if(!$auth) {
+        header('HTTP/1.1 303 See Other');
         header("Location: invite1.php");
         exit;
     }
@@ -42,6 +44,7 @@
         fclose($lock);
     }
 
+    header('HTTP/1.1 303 See Other');
     header("Location: index.php");
     exit;
 ?>
