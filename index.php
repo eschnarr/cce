@@ -197,12 +197,12 @@ END;
           <h1 class="title">The Charity Chain</h1>
           <h3 class="subtitle w3-padding-8">$<?php echo money_format("%i", $total_value); ?> donated so far!</h3>
           <div class="w3-hide-medium w3-hide-large w3-text-gray">
-            <div id="countdown1">Event ends in <div id="clock1" style="display:inline;">00 days 00h 00m 00s</div> </div>
+            <div id="countdown1">This event ends in <div id="clock1" style="display:inline;">00 days 00h 00m 00s</div> </div>
           </div>
         </div>
 
         <div class="w3-third w3-padding-16 w3-hide-small" style="text-align:center;">
-          <div id="countdown2">Event ends in <h4><div id="clock2">00 days 00h 00m 00s</div></h4> </div>
+          <div id="countdown2">This event ends in <h4><div id="clock2">00 days 00h 00m 00s</div></h4> </div>
         </div>
 
         <div>
