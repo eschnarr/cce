@@ -380,7 +380,7 @@ END;
     if($auth) {
         $rows[] = '              <div class="w3-half">' . PHP_EOL;
     } else {
-        $rows[] = '              <div class="w3-rest">' . PHP_EOL;
+        $rows[] = '              <div class="w3-threequarter">' . PHP_EOL;
     }
     $rows[] = <<<"END"
                 <h4><b>{$c->name}</b></h4>
