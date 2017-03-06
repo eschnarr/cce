@@ -1,12 +1,12 @@
 <?php
-if($_SERVER['SERVER_NAME'] != "localhost" &&
-   (!$_SERVER['HTTPS'] || $_SERVER['HTTPS'] == "off"))
-{
-    $redirect = "https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    header('HTTP/1.1 301 Moved Permanently');
-    header('Location: ' . $redirect);
-    exit();
-}
+//if($_SERVER['SERVER_NAME'] != "localhost" &&
+   //(!$_SERVER['HTTPS'] || $_SERVER['HTTPS'] == "off"))
+//{
+    //$redirect = "https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //header('HTTP/1.1 301 Moved Permanently');
+    //header('Location: ' . $redirect);
+    //exit();
+//}
 
 require_once "auth.php";
 require_once "db.php";
@@ -34,10 +34,9 @@ $end_message = "The event has ended!";
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link type="text/css" rel="stylesheet" href="mockup-index_files/style.html">
     <title>The Charity Chain Experiment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>* {font-family: "Helvetica", sans-serif; line-height:20px; color:#444;}</style>
