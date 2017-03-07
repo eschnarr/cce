@@ -16,15 +16,15 @@ END;
     return <<<"END"
 <p>Welcome,</p>
 
-<p>You've been invited to join The Charity Chain, an experiment in viral
+<p>You've been invited to join <b>The Charity Chain</b>, an experiment in viral
   giving. By donating to your favorite charities, and inviting others to do the
   same, you will begin a cascade of donations greater than you achieve by
-  working alone. You can make a diference.</p>
+  working alone. <b>You can make a diference.</b></p>
 
-<p>Below is your personal ticket to join The Charity Chain. Click on the ticket
-  get started.</p>
+<p>Below is your personal ticket to join The Charity Chain. <b>Click on the
+  ticket get started.</b></p>
 
-<p>{$link}</p>
+<p>&lt;&lt;ticket&gt;&gt;</p>
 
 <p>Thank You,<br>The Charity Chain</p>
 

@@ -17,6 +17,11 @@ if(isset($_GET['logout'])) {
     unset($email); unset($auth);
     setcookie('email', "", 0);
     setcookie('auth', "", 0);
+
+    header('HTTP/1.1 303 See Other');
+    header("Location: .");
+    exit;
+
 } else {
     if($email) { setcookie('email', $email); }
     if($auth) { setcookie('auth', $auth); }
@@ -144,7 +149,10 @@ END;
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>* {font-family: "Helvetica", sans-serif; line-height:20px; color:#444;}</style>
+    <style>
+      * {font-family: "Helvetica", sans-serif; line-height:20px; color:#444;}
+      a {color:#0000CC;}
+    </style>
     <script type="text/javascript">
       var CaptchaCallback = function() {
           grecaptcha.render('RecaptchaField1', {'sitekey' : '<?php echo $sitekey; ?>'});
@@ -225,11 +233,11 @@ END;
             </div>
 <?php
 if($email) echo <<<"END"
-            <div>Welcome {$email} (<a href="?logout">logout</a>)</div>
+            <div style="display:inline;">Welcome {$email} (<a href="?logout">logout</a>)</div><br>
 
 END;
 ?>
-            <a href="#" onclick="document.getElementById('id01').style.display='block'">About CCE</a>
+            <a href="#" onclick="document.getElementById('about').style.display='block'">About CCE</a>
 <?php
 if($countdown > 0) echo <<<"END"
             <br><a href="#" onclick="document.getElementById('invite1').style.display='block'">Send an invitation</a>
@@ -252,23 +260,23 @@ END;
 <?php
 if($auth) {
     echo <<<"END"
-          <p>You've been invited to join The Charity Chain, an experiment in
-            viral giving.  By donating to your favorite charities, and inviting
-            others to do the same, you will begin a cascade of giving greater
-            than you achieve by working alone. You can make a difference, so
-            <span style="text-transform:uppercase">don't break the
-            chain</span>!</p>
+          <p>You've been invited to join <b>The Charity Chain</b>, an
+            experiment in viral giving.  By donating to your favorite
+            charities, and inviting others to do the same, you will begin a
+            cascade of giving greater than you achieve by working alone. You
+            can make a difference, so <span
+            style="text-transform:uppercase">don't break the chain</span>!</p>
 
           <p>Three easy steps:</p><ol>
 
-            <li>Make a donation to a charity listed below, or
+            <li>Make a <b>donation</b> to a charity listed below, or
               <a href="#add-charity">add your own</a></li>
 
             <li>Tell us about your donations, so we can show their cumulative
               effect</li>
 
-            <li>Invite FIVE of your friends to also participate in The Charity Chain
-              [<a href="#" onclick="document.getElementById('invite5').style.display='block'">INVITE FRIENDS</a>]</li>
+            <li><a href="#" onclick="document.getElementById('invite5').style.display='block'">
+              Invite FIVE of your friends</a> to also participate in <b>The Charity Chain</b>
 
           </ol>
 
@@ -451,36 +459,36 @@ END;
 
     </div>
 
-    <div id="about" class="w3-modal">
-      <div class="w3-modal-content" style="width:600px;">
+    <div id="about" class="w3-modal" onclick="closeIfOutside('aboutContainer')">
+      <div id="aboutContainer" class="w3-modal-content" style="width:600px;">
         <div class="w3-container">
-          <span onclick="document.getElementById('about').style.display='none'" class="w3-closebtn">&times;</span>
-
           <div class="w3-section">
             <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
               <div class="w3-row">
 
-                <h5>About the Charity Chain Experiment</h5>
+                <h4>About the Charity Chain Experiment
+                  <span onclick="document.getElementById('about').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-blue" style="margin-top:-0.15em;">&times;</span>
+                </h4>
 
-                <p>The Charity Chain Experiment (CCE) was conceived as part of
-                  a leadership challenge assignment in a management training
-                  course. The assignment was to take $100 start-up capital, and
-                  generate a greater value of good deeds for the community and
-                  the world. So I invested capital in a domain name and other
-                  virtual supplies, and enlisted the help of friends to develop
-                  this site.</p>
+                <p>The <b>Charity Chain Experiment</b> (CCE) was conceived as
+                  part of a leadership challenge assignment in a management
+                  training course. The assignment was to take $100 start-up
+                  capital, and generate a greater value of good deeds for the
+                  community and the world. So I invested capital in a domain
+                  name and other virtual supplies, and enlisted the help of
+                  friends to develop this site.</p>
 
-                <p>The site's purpose is to encourage people to make charitable
-                  donations now, rather than waiting for later, or not donating
-                  at all. It's not specific: There are many good charities out
-                  there that need support. This site simply connects people to
-                  worthy charities. And like a chain letter, it's membership
-                  grows expoentially.</p>
+                <p>The site's purpose is to <b>encourage people to make
+                  charitable donations now</b>, rather than waiting for later,
+                  or not donating at all. It's not specific: There are many
+                  good charities out there that need support. This site simply
+                  connects people to worthy charities. And like a chain letter,
+                  it's membership grows expoentially.</p>
 
-                <p>We ask people to tell us how much they've donated, so we can
-                  show the total value of charitable donations generated. You
-                  can visit this site again later to see how the total has
-                  grown.</p>
+                <p>We ask people to <b>tell us how much they've donated</b>, so
+                  we can show the total value of charitable donations
+                  generated. You can visit this site again later to see how the
+                  total has grown.</p>
 
                 <p>Thank you for your support,<br>Eric Schnarr &ndash; CCE
                   Inventor</p>
@@ -520,45 +528,59 @@ END;
     <div id="invite1" class="w3-modal">
       <div class="w3-modal-content" style="width:600px;">
         <div class="w3-container">
-           <span onclick="document.getElementById('invite1').style.display='none'" class="w3-closebtn">&times;</span>
-<?php
-$value = isset($_POST["to1"]) ? $_POST["to1"] : "";
-if($value) { $value = " value=\"{$value}\""; }
-echo <<<"END"
-           <form action="invite.php" method="post">
-             <table width=550><tr>
-               <td colspan=3><p>Use this form to invite someone to join The
-                 Charity Chain. Or use it to re-invite yourself, if you lost
-                 your invitation. Simply enter an email address below, click
-                 send, and a message like the one shown will be sent.</p></td>
-             </tr><tr>
-               <td colspan=3><hr></td>
-             </tr><tr>
-               <td colspan=3>
-                 <div id="RecaptchaField1" align="center"></div>
-               </td>
-             </tr><tr>
-               <td style="text-align:right" width=25>To:</td>
-               <td><input type="email" name="to1"{$value} size=30></td>
-               <td><input type="submit" value="Send"></td>
-             </tr><tr>
-               <td style="text-align:right">Subject:</td><td colspan=2>
-                 <input type="text" name="subject" value="{$subject}" size=45>
-               </td>
-             </tr><tr>
-               <td colspan=3><hr></td>
-             </tr><tr>
-               <td colspan=3>
+          <form action="invite.php" method="post">
 
-END;
-echo invitation();
-echo <<<"END"
-               </td>
-             </tr></table>
-           </form>
+            <div class="w3-section">
+              <div class="w3-row">
 
-END;
-?>
+                <h4>Invite Someone
+		  <div class="w3-tooltip" style="display:inline;">
+		    <span onclick="document.getElementById('invite1').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-light-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
+		    <span class="w3-text w3-tag w3-closebtn w3-white w3-text-red w3-large" style="margin-top:-0.10em;">Cancel</span>
+		  </div>
+		</h4>
+
+                <p>Use this form to invite someone to join <b>The Charity
+                  Chain</b>. Or use it to re-invite yourself, if you lost your
+                  invitation. Simply enter an email address below, click send,
+                  and a message like the one shown will be sent.</p>
+
+		<hr>
+	      </div>
+
+              <div class="w3-row" align="center">
+                <div id="RecaptchaField1"></div>
+              </div>
+
+              <div class="w3-row w3-padding-16">
+                <div class="w3-threequarter">
+                  <div class="w3-row">
+                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
+                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+               	    <input type="email" name="to1" size=38>
+                  </div>
+
+                  <div class="w3-row w3-padding-4">
+                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">Subject:</div> 
+                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">Subject:</div> 
+                    <input type="text" name="subject" value="<?php echo "{$subject}"; ?>" size=38>
+                  </div>
+                </div>
+
+                <div class="w3-quarter" align="center">
+                  <input type="submit" class="w3-button w3-hover-light-blue" value="Send" style="margin-top:10px;">
+                </div>
+	      </div>
+
+              <div class="w3-row">
+                <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+
+<?php echo invitation(); ?>
+
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -566,57 +588,67 @@ END;
     <div id="invite5" class="w3-modal">
       <div class="w3-modal-content" style="width:600px;">
         <div class="w3-container">
-           <span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn">&times;</span>
+          <form action="invite.php" method="post">
+
+            <div class="w3-section">
+              <div class="w3-row">
+
+                <h4>Send Invitations
+		  <div class="w3-tooltip" style="display:inline;">
+		    <span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-light-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
+		    <span class="w3-text w3-tag w3-closebtn w3-white w3-text-red w3-large" style="margin-top:-0.10em;">Cancel</span>
+		  </div>
+		</h4>
+
+                <p>Send invitations to up to <b>five of your friends.</b>
+                 Simply enter their email addresses below, click send, and a
+                 message like the one shown will be sent to each person.</p>
+
+		<hr>
+	      </div>
+
+              <div class="w3-row" align="center">
+                <div id="RecaptchaField1"></div>
+	      </div>
+
+              <div class="w3-row w3-padding-16">
+                <div class="w3-threequarter">
 <?php
-$value = isset($_POST["to1"]) ? $_POST["to1"] : "";
-if($value) { $value = " value=\"{$value}\""; }
-echo <<<"END"
-           <form action="invite.php" method="post">
-             <table width=550><tr>
-               <td colspan=3><p>Send invitations to up to five of your
-                 friends. Simply enter their email addresses below, click send,
-                 and a message like the one shown will be sent to each
-                 person.</p></td>
-             </tr><tr>
-               <td colspan=3><hr></td>
-             </tr><tr>
-               <td colspan=3>
-                 <div id="RecaptchaField2" align="center"></div>
-               </td>
-             </tr><tr>
-               <td style="text-align:right" width=25>To:</td>
-               <td><input type="email" name="to1"{$value} size=30></td>
-               <td><input type="submit" value="Send" rowspan=5></td>
-             </tr><tr>
-               <td style="text-align:right" width=25>To:</td>
-               <td><input type="email" name="to2"{$value} size=30></td>
-             </tr><tr>
-               <td style="text-align:right" width=25>To:</td>
-               <td><input type="email" name="to3"{$value} size=30></td>
-             </tr><tr>
-               <td style="text-align:right" width=25>To:</td>
-               <td><input type="email" name="to4"{$value} size=30></td>
-             </tr><tr>
-               <td style="text-align:right" width=25>To:</td>
-               <td><input type="email" name="to5"{$value} size=30></td>
-             </tr><tr>
-               <td style="text-align:right">Subject:</td><td colspan=2>
-                 <input type="text" name="subject" value="{$subject}" size=45>
-               </td>
-             </tr><tr>
-               <td colspan=3><hr></td>
-             </tr><tr>
-               <td colspan=3>
+for($i=0; $i<5; ++$i) {
+    echo <<<"END"
+
+                  <div class="w3-row w3-padding-4">
+                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div>
+                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div>
+               	    <input type="email" name="to{$i}" size=38>
+                  </div>
 
 END;
-echo invitation();
-echo <<<"END"
-               </td>
-             </tr></table>
-           </form>
-
-END;
+}
 ?>
+
+                  <div class="w3-row w3-padding-4">
+                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">Subject:</div>
+                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">Subject:</div>
+                    <input type="text" name="subject" value="<?php echo "{$subject}"; ?>" size=38>
+                  </div>
+                </div>
+
+                <div class="w3-quarter" align="center">
+                  <input type="submit" class="w3-button w3-hide-small w3-hover-light-blue" value="Send" style="margin-top:80px;">
+                  <input type="submit" class="w3-button w3-hide-medium w3-hide-large w3-hover-light-blue" value="Send" style="margin-top:10px;">
+                </div>
+	      </div>
+
+              <div class="w3-row">
+                <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+
+<?php echo invitation(); ?>
+
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

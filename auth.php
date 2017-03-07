@@ -7,12 +7,21 @@ function gen_auth($email)
 }
 
 {
+    global $email, $auth;
+    $email = $auth = "";
+
+    $_email = $_auth = "";
     $_req = array_merge($_COOKIE, $_POST, $_GET);
-    $_email = filter_var($_req['email'], FILTER_SANITIZE_EMAIL);
-    $_auth = trim($_req['auth']);
+    if(is_array($_req)) {
+        if(isset($_req['email'])) {
+            $_email = filter_var($_req['email'], FILTER_SANITIZE_EMAIL);
+        }
+        if(isset($_req['auth'])) {
+            $_auth = trim($_req['auth']);
+        }
+    }
 
     if($_email && gen_auth($_email) == $_auth) {
-        global $email, $auth;
         $email = $_email;
         $auth = $_auth;
     }
