@@ -77,18 +77,17 @@ if($domain) {
         if(!$newC->donate) { $newC->donate = $url; }
         $newC->value += $value;
 
+        $message = "Charity saved.";
         if($value > 0.0) {
             $donations[$domain] += $value;
             save_donations($email, $donations);
+
+            $message .= " $".money_format("%i",$value)." donation recorded.";
+            $message .= " Don't forget to visit {$newC->name} to actually make your donation.";
         }
 
         $charities[$domain] = $newC;
         save_charities($charities);
-
-        $message = "Charity saved.";
-        if($value > 0.0) {
-            $message .= " $".money_format("%i",$value)." donation recorded.";
-        }
     }
 }
 
@@ -312,24 +311,24 @@ foreach($donations as $domain => $value) {
     $value = money_format("%i", $value);
     $rows[] = <<<"END"
           <div class="w3-row">
-              <div class="w3-half">
-                <h4><b>{$c->name}</b></h4>
-                <a href="{$c->url}">{$domain}</a>
+            <div class="w3-half">
+              <h4 style="margin-bottom:0px"><b>{$c->name}</b></h4>
+              <a href="{$c->url}" target="_blank">{$domain}</a>
 
 END;
     if($c->url != $c->donate) $rows[] = <<<"END"
-                (<a href="{$c->donate}">donate</a>)
+              (<a href="{$c->donate}" target="_blank">donate</a>)
 
 END;
     $rows[] = <<<"END"
-              </div>
-              <div class="w3-half" style="text-align:right;">
+            </div>
+            <div class="w3-half" style="text-align:right;">
               <form action="change-donation.php" method="post">
                 $ <input type="number" name="value" value="{$value}" min="0" step="0.01" required style="width:120px">
                 <input type="hidden" name="domain" value="{$domain}">
                 <input type="submit" value="Change" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
               </form>
-              </div>
+            </div>
           </div>
 
 END;
@@ -337,10 +336,10 @@ END;
 
 if(0 < count($rows)) {
     echo <<<"END"
-        <div class="w3-section">
+      <div class="w3-section">
 
-          <h5>Your Donations</h5>
-          <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+        <h5>Your Donations</h5>
+        <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
 
 END;
 
@@ -348,6 +347,7 @@ END;
 
     echo <<<"END"
         </div>
+      </div>
 
 END;
 }
@@ -380,51 +380,51 @@ foreach($recs as $domain => $c) {
 
     $rows[] = <<<"END"
           <div class="w3-row">
-              <div class="w3-quarter w3-padding-8">
+            <div class="w3-quarter w3-padding-8">
               <h3><i class="fa fa-money w3-xlarge w3-text-green"></i> &dollar;{$value}</h3>
-              </div>
+            </div>
 
 END;
     if($auth) {
-        $rows[] = '              <div class="w3-half">' . PHP_EOL;
+        $rows[] = '            <div class="w3-half">' . PHP_EOL;
     } else {
-        $rows[] = '              <div class="w3-threequarter">' . PHP_EOL;
+        $rows[] = '            <div class="w3-threequarter">' . PHP_EOL;
     }
     $rows[] = <<<"END"
-                <h4><b>{$c->name}</b></h4>
-                <a href="{$c->url}">{$domain}</a>
+              <h4 style="margin-bottom:0px"><b>{$c->name}</b></h4>
+              <a href="{$c->url}" target="_blank">{$domain}</a>
 
 END;
     if($c->url != $c->donate) $rows[] = <<<"END"
-                (<a href="{$c->donate}">donate</a>)
-
-END;
-    $rows[] = <<<"END"
-              </div>
-
-END;
-    if($auth) $rows[] = <<<"END"
-              <div class="w3-quarter" style="text-align:right;">
-                <form action="change-donation.php" method="post">
-                  $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
-                  <input type="hidden" name="domain" value="{$domain}">
-                  <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
-                </form>
-              </div>
+              (<a href="{$c->donate}" target="_blank">donate</a>)
 
 END;
     $rows[] = <<<"END"
             </div>
 
 END;
+    if($auth) $rows[] = <<<"END"
+            <div class="w3-quarter" style="text-align:right;">
+              <form action="record-donation.php" method="post">
+                $ <input type="number" name="value" min="0" step="0.01" required style="width:120px">
+                <input type="hidden" name="domain" value="{$domain}">
+                <input type="submit" value="Add" class="w3-button w3-padding-4 w3-hover-light-blue" style="margin-top:5px;">
+              </form>
+            </div>
+
+END;
+    $rows[] = <<<"END"
+          </div>
+
+END;
 }
 
 if(0 < count($rows)) {
     echo <<<"END"
-        <div class="w3-section">
+      <div class="w3-section">
 
-          <h5>Popular Charities</h5>
-          <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+        <h5>Popular Charities</h5>
+        <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
 
 END;
 
@@ -432,6 +432,7 @@ END;
 
     echo <<<"END"
         </div>
+      </div>
 
 END;
 }
@@ -440,13 +441,13 @@ END;
 <?php
 if($auth) {
     echo <<<"END"
-        <div id="add-charity" class="w3-section w3-center">
-          <form action="." method="post">
-            <input type="hidden" name="new-charity">
-            Charity URL: <input type="text" name="url" required>
-            <input type="submit" value="Add a charity">
-          </form>
-        </div>
+      <div id="add-charity" class="w3-section w3-center">
+        <form action="." method="post">
+          <input type="hidden" name="new-charity">
+          Charity URL: <input type="text" name="url" required>
+          <input type="submit" value="Add a charity">
+        </form>
+      </div>
 
 END;
 }
@@ -467,7 +468,7 @@ END;
               <div class="w3-row">
 
                 <h4>About the Charity Chain Experiment
-                  <span onclick="document.getElementById('about').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-blue" style="margin-top:-0.15em;">&times;</span>
+                  <span onclick="document.getElementById('about').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
                 </h4>
 
                 <p>The <b>Charity Chain Experiment</b> (CCE) was conceived as
@@ -535,8 +536,7 @@ END;
 
                 <h4>Invite Someone
 		  <div class="w3-tooltip" style="display:inline;">
-		    <span onclick="document.getElementById('invite1').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-light-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
-		    <span class="w3-text w3-tag w3-closebtn w3-white w3-text-red w3-large" style="margin-top:-0.10em;">Cancel</span>
+		    <span onclick="document.getElementById('invite1').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
 		  </div>
 		</h4>
 
@@ -555,14 +555,14 @@ END;
               <div class="w3-row w3-padding-16">
                 <div class="w3-threequarter">
                   <div class="w3-row">
-                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div> 
-                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div> 
+                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div>
+                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div>
                	    <input type="email" name="to1" size=38>
                   </div>
 
                   <div class="w3-row w3-padding-4">
-                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">Subject:</div> 
-                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">Subject:</div> 
+                    <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">Subject:</div>
+                    <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">Subject:</div>
                     <input type="text" name="subject" value="<?php echo "{$subject}"; ?>" size=38>
                   </div>
                 </div>
@@ -595,8 +595,7 @@ END;
 
                 <h4>Send Invitations
 		  <div class="w3-tooltip" style="display:inline;">
-		    <span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-light-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
-		    <span class="w3-text w3-tag w3-closebtn w3-white w3-text-red w3-large" style="margin-top:-0.10em;">Cancel</span>
+		    <span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
 		  </div>
 		</h4>
 
@@ -656,34 +655,59 @@ END;
     <div id="new-charity" class="w3-modal" style="<?php echo "display:{$new_charity_state}" ?>">
       <div class="w3-modal-content" style="width:600px;">
         <div class="w3-container">
-           <span onclick="document.getElementById('new-charity').style.display='none'" class="w3-closebtn">&times;</span>
+          <div class="w3-section">
+            <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+              <div class="w3-row">
 
-           <form action="." method="post">
-             <input type="hidden" name="new-charity">
-             <table><tr>
-                 <td align="right">Charity Name:</td>
-                 <td><input type="text" name="name" value="<?php echo "$name"; ?>" size="80" required></td>
-               </tr><tr>
-                 <td align="right">Charity URL:</td>
-                 <td><input type="text" name="url" value="<?php echo "$url"; ?>" size="80" required></td>
-               </tr><tr>
-                 <td align="right">URL for Donations:</td>
-                 <td><input type="url" name="donate" value="<?php echo "$donate"; ?>" size="80"></td>
-               </tr><tr>
-                 <td align="right">
-                   <?php echo ($c->value > 0.0 ? "New" : "Initial"); ?>
-                   Donation:
-                 </td>
-                 <td>&dollar;<input type="number" name="value" step="0.01"
-                     value="<?php echo ($value > 0.0 ? "$value" : ""); ?>">
-                 </td>
-               </tr><tr>
-                 <td colspan=2 align="center"><input type="submit"
-                     value="<?php echo ($newC_exists ?  "Update" : "Add"); ?> Charity">
-                 </td>
-             </tr></table>
-           </form>
+                <h4>Add/Update Charity
+                  <div class="w3-tooltip" style="display:inline;">
+		    <a href="." class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</a>
+		  </div>
+                </h4>
 
+                <form action="." method="post">
+                  <input type="hidden" name="new-charity">
+
+                  <div class="w3-row-padding w3-padding-4">
+                    <div class="w3-third w3-hide-small"><div class="w3-right">Charity Name:</div></div>
+                    <div class="w3-third w3-hide-medium w3-hide-large">Charity Name</div>
+                    <div class="w3-twothird">
+                      <input style="width:100%" type="text" name="name" value="<?php echo "$name"; ?>" required>
+                    </div>
+                  </div>
+
+                  <div class="w3-row-padding w3-padding-4">
+                    <div class="w3-third w3-hide-small"><div class="w3-right">Charity Site URL:</div></div>
+                    <div class="w3-third w3-hide-medium w3-hide-large">Charity Site URL</div>
+                    <div class="w3-twothird">
+                      <input style="width:100%" type="text" name="url" value="<?php echo "$url"; ?>" required>
+                    </div>
+                  </div>
+
+                  <div class="w3-row-padding w3-padding-4">
+                    <div class="w3-third w3-hide-small"><div class="w3-right">Donations Page URL:</div></div>
+                    <div class="w3-third w3-hide-medium w3-hide-large">Donations Page URL</div>
+                    <div class="w3-twothird">
+                      <input style="width:100%" type="url" name="donate" value="<?php echo "$donate"; ?>">
+                    </div>
+                  </div>
+
+                  <div class="w3-row-padding w3-padding-4">
+                    <div class="w3-third w3-hide-small"><div class="w3-right"><?php echo ($c->value > 0.0 ? "New" : "Initial"); ?> Donation:</div></div>
+                    <div class="w3-third w3-hide-medium w3-hide-large"><?php echo ($c->value > 0.0 ? "New" : "Initial"); ?> Donation</div>
+                    <div class="w3-twothird">&dollar;
+                      <input style="width:120px" type="number" name="value" step="0.01" value="<?php echo ($value > 0.0 ? "$value" : ""); ?>">
+                    </div>
+                  </div>
+
+                  <div class="w3-row-padding w3-padding-4 w3-center">
+                    <input type="submit" value="<?php echo ($newC_exists ?  "Update" : "Add"); ?> Charity">
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -691,11 +715,28 @@ END;
     <div id="message" class="w3-modal" style="<?php echo "display:{$message_state}" ?>">
       <div class="w3-modal-content" style="width:600px;">
         <div class="w3-container">
-           <a href="." class="w3-closebtn">&times;</a>
-          <p><?php echo "{$message}"; ?></p>
-          <a href=".">Close</a>
+          <div class="w3-section">
+            <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
+              <div class="w3-row">
+
+                <h4>Status Message
+                  <div class="w3-tooltip" style="display:inline;">
+		    <a href="." class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</a>
+		  </div>
+	        </h4>
+
+                <p><?php echo "{$message}"; ?></p>
+
+                <div class="w3-center">
+                  <a href="."><button>Close</button></a>
+                </div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
   </body>
 </html>

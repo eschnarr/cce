@@ -16,6 +16,7 @@ if(isset($_POST) && isset($_POST['subject']) && $_POST['subject']) {
     $subject = trim($_POST['subject']);
 }
 
+$robot = true;
 $found = array();
 $failed = array(); $sent = 0;
 if(isset($_POST['g-recaptcha-response'])) {
@@ -24,6 +25,7 @@ if(isset($_POST['g-recaptcha-response'])) {
     $recaptcha = new \ReCaptcha\ReCaptcha($secret);
     $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
     if($resp->isSuccess()) {
+        $robot = false;
 
         foreach($_POST as $arg => $value) {
             if("to" == substr($arg,0,2)) {
@@ -45,14 +47,18 @@ if(isset($_POST['g-recaptcha-response'])) {
     }
 }
 
-$message = "";
-if(0 < count($found)) {
-    $message = $sent==1 ? "Sent invitation." : "Sent {$sent} invitations.";
+$message = "No invitations sent.";
+if($robot) {
+    $message .= " Are you a robot?";
+} else if(0 < count($found)) {
+    $message = $sent==1 ? "Invitation sent." : "{$sent} invitations sent.";
     if(0 < count($failed)) {
         $message .= " Failed sending to";
         foreach($failed as $_email) { $message .= " {$_email}"; }
         $message .= ".";
     }
+}
+if($message) {
     $message = "?message=" . urlencode($message);
 }
 
