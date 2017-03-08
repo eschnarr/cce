@@ -630,7 +630,7 @@ END;
 	      </div>
 
               <div class="w3-row" align="center">
-                <div id="RecaptchaField1"></div>
+                <div id="RecaptchaField2"></div>
 	      </div>
 
               <div class="w3-row w3-padding-16">
