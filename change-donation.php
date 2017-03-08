@@ -31,7 +31,8 @@ if($domain) {
     $c = $charities[$domain];
     if($c) {
         if($value != $old) {
-            $c->timestamp = (new DateTime())->getTimestamp();
+            $now = new DateTime();
+            $c->timestamp = $now->getTimestamp();
         }
         $c->value += $value - $old;
         if($c->value < 0.0) { $c->value = 0.0; }

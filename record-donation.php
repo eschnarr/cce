@@ -24,7 +24,8 @@ if($domain && $value > 0.0) {
 
     $c = $charities[$domain];
     if($c) {
-        $c->timestamp = (new DateTime())->getTimestamp();
+        $now = new DateTime();
+        $c->timestamp = $now->getTimestamp();
         $c->value += $value;
 
         $message = "$".money_format("%i",$value)." donation recorded.";
