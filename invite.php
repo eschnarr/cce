@@ -37,7 +37,7 @@ if(isset($_POST['g-recaptcha-response'])) {
                 $headers .= "Content-type: text/html; charset=iso-8859-1\n";
                 $headers .= "From: contact@thecharitychain.org\n";
                 $headers .= "X-Mailer: PHP/".phpversion();
-                if(mail($to, $subject, invitation($to), $headers)) {
+                if(false && mail($to, $subject, invitation($to), $headers)) {
                     ++$sent;
                 } else {
                     $failed[] = $to;

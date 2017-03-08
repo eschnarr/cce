@@ -10,7 +10,7 @@ function invitation($to="")
 
 END;
     } else {
-        $link = "&lt;&lt;ticket&gt;&gt;";
+        $link = "&lt;&lt;sample-ticket&gt;&gt;";
     }
 
     return <<<"END"
@@ -24,7 +24,7 @@ END;
 <p>Below is your personal ticket to join The Charity Chain. <b>Click on the
   ticket get started.</b></p>
 
-<p>&lt;&lt;sample-ticket&gt;&gt;</p>
+<p>{$link}</p>
 
 <p>Thank You,<br>The Charity Chain</p>
 
