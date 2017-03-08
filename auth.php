@@ -28,7 +28,7 @@ function gen_auth($email)
 
     global $countdown;
     $now = new DateTime();
-    $end = new DateTime("2017-04-15");
+    $end = new DateTime("2017-05-01");
     $countdown = $end->getTimestamp() - $now->getTimestamp();
 
 }

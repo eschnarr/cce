@@ -260,11 +260,11 @@ END;
 if($auth) {
     echo <<<"END"
           <p>You've been invited to join <b>The Charity Chain</b>, an
-            experiment in viral giving.  By donating to your favorite
-            charities, and inviting others to do the same, you will begin a
-            cascade of giving greater than you achieve by working alone. You
-            can make a difference, so <span
-            style="text-transform:uppercase">don't break the chain</span>!</p>
+            experiment in viral giving. By donating to your favorite charities,
+            and inviting others to do the same, you will begin a cascade of
+            giving greater than you achieve by working alone. You can make a
+            difference, and that difference continues to grow as you reach out
+            to family and friends. <i>So let's not break the chain!</i></p>
 
           <p>Three easy steps:</p><ol>
 
@@ -386,9 +386,15 @@ foreach($recs as $domain => $c) {
 
 END;
     if($auth) {
-        $rows[] = '            <div class="w3-half">' . PHP_EOL;
+        $rows[] = <<<"END"
+            <div class="w3-half">
+
+END;
     } else {
-        $rows[] = '            <div class="w3-threequarter">' . PHP_EOL;
+        $rows[] = <<<"END"
+            <div class="w3-threequarter">
+
+END;
     }
     $rows[] = <<<"END"
               <h4 style="margin-bottom:0px"><b>{$c->name}</b></h4>
@@ -423,7 +429,19 @@ if(0 < count($rows)) {
     echo <<<"END"
       <div class="w3-section">
 
-        <h5>Popular Charities</h5>
+        <div class="w3-row">
+          <h5 class="w3-quarter">Popular Charities</h5>
+
+END;
+    if($auth) {
+        echo <<<"END"
+          <div class="w3-half w3-hide-small"><div style="margin-top:10px">&darr;&nbsp;Go&nbsp;to&nbsp;the&nbsp;charity&nbsp;web&nbsp;site&nbsp;to&nbsp;donate&nbsp;&darr;</div></div>
+          <div class="w3-quarter w3-center w3-hide-small"><div style="margin-top:10px">&darr;&nbsp;Record&nbsp;donation&nbsp;&darr;</div></div>
+
+END;
+    }
+    echo <<<"END"
+        </div>
         <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
 
 END;
@@ -442,6 +460,11 @@ END;
 if($auth) {
     echo <<<"END"
       <div id="add-charity" class="w3-section w3-center">
+        <div class="w3-content" style="max-width:480px">
+          Enter the address of a charity's web site below to add it to the
+          list. This form can also be used to update a charity that is already
+          on the list.
+        </div>
         <form action="." method="post">
           <input type="hidden" name="new-charity">
           Charity URL: <input type="text" name="url" required>
