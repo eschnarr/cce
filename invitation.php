@@ -19,7 +19,7 @@ END;
 <p>You've been invited to join <b>The Charity Chain</b>, an experiment in viral
   giving. By donating to your favorite charities, and inviting others to do the
   same, you will begin a cascade of donations greater than you achieve by
-  working alone. <b>You can make a diference.</b></p>
+  working alone. <b>You can make a difference.</b></p>
 
 <p>Below is your personal ticket to join The Charity Chain. <b>Click on the
   ticket get started.</b></p>
