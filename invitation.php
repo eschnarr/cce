@@ -6,7 +6,7 @@ function invitation($to="")
         $enc_auth = gen_auth($to);
         $link = <<<"END"
 <a href="https://thecharitychain.org?email={$enc_to}&auth={$enc_auth}">
-<button>Ticket to enter The Charity Chain</button></a>
+<button>{$to}'s ticket to The Charity Chain</button></a>
 
 END;
     } else {
