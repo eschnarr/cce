@@ -25,7 +25,7 @@ if(isset($_POST) && isset($_POST['note']) && $_POST['note']) {
     $note = rtrim($_POST['note']);
     $note = preg_replace('#[ \t]*\r?\n#',"\n", $note);
     $note = preg_replace('#\n+\n#', "\n\n", $note);
-    if($note && $note[0] == '\n') {
+    if($note && $note[0] == "\n") {
         $note = preg_replace('#\n+#', "", $note, 1);
     }
     $note = htmlspecialchars($note);
