@@ -558,18 +558,18 @@ END;
               <div class="w3-row">
 
                 <h4>Invite Someone
-		  <div class="w3-tooltip" style="display:inline;">
-		    <span onclick="document.getElementById('invite1').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
-		  </div>
-		</h4>
+                  <div class="w3-tooltip" style="display:inline;">
+                    <span onclick="document.getElementById('invite1').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
+                  </div>
+                </h4>
 
                 <p>Use this form to invite someone to join <b>The Charity
                   Chain</b>. Or use it to re-invite yourself, if you lost your
                   invitation. Simply enter an email address below, click send,
                   and a message like the one shown will be sent.</p>
 
-		<hr>
-	      </div>
+                <hr>
+              </div>
 
               <div class="w3-row" align="center">
                 <div id="RecaptchaField1"></div>
@@ -580,7 +580,7 @@ END;
                   <div class="w3-row">
                     <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div>
                     <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div>
-               	    <input type="email" name="to1" size=38>
+                    <input type="email" name="to1" size=38>
                   </div>
 
                   <div class="w3-row w3-padding-4">
@@ -593,7 +593,13 @@ END;
                 <div class="w3-quarter" align="center">
                   <input type="submit" class="w3-button w3-hover-light-blue" value="Send" style="margin-top:10px;">
                 </div>
-	      </div>
+              </div>
+
+              <div class="w3-row">
+                <textarea name="note" maxlength="250" rows="4" style="width:100%; resize:none"
+                          placeholder="Optionally add a personal message here. 250 characters max."
+                          ></textarea>
+              </div>
 
               <div class="w3-row">
                 <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
@@ -617,21 +623,21 @@ END;
               <div class="w3-row">
 
                 <h4>Send Invitations
-		  <div class="w3-tooltip" style="display:inline;">
-		    <span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
-		  </div>
-		</h4>
+                  <div class="w3-tooltip" style="display:inline;">
+                    <span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
+                  </div>
+                </h4>
 
                 <p>Send invitations to up to <b>five of your friends.</b>
-                 Simply enter their email addresses below, click send, and a
-                 message like the one shown will be sent to each person.</p>
+                  Simply enter their email addresses below, click send, and a
+                  message like the one shown will be sent to each person.</p>
 
-		<hr>
-	      </div>
+                <hr>
+              </div>
 
               <div class="w3-row" align="center">
                 <div id="RecaptchaField2"></div>
-	      </div>
+              </div>
 
               <div class="w3-row w3-padding-16">
                 <div class="w3-threequarter">
@@ -642,7 +648,7 @@ for($i=0; $i<5; ++$i) {
                   <div class="w3-row w3-padding-4">
                     <div style="text-align:right;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-small">To:</div>
                     <div style="text-align:left;float:left;width:75px;margin-top:3px;margin-right:8px;" class="w3-text-grey w3-hide-medium w3-hide-large">To:</div>
-               	    <input type="email" name="to{$i}" size=38>
+                    <input type="email" name="to{$i}" size=38>
                   </div>
 
 END;
@@ -660,7 +666,13 @@ END;
                   <input type="submit" class="w3-button w3-hide-small w3-hover-light-blue" value="Send" style="margin-top:80px;">
                   <input type="submit" class="w3-button w3-hide-medium w3-hide-large w3-hover-light-blue" value="Send" style="margin-top:10px;">
                 </div>
-	      </div>
+              </div>
+
+              <div class="w3-row">
+                <textarea name="note" maxlength="250" rows="4" style="width:100%; resize:none"
+                          placeholder="Optionally add a personal message here. 250 characters max."
+                          ></textarea>
+              </div>
 
               <div class="w3-row">
                 <div class="w3-card-2 w3-white w3-padding w3-border w3-border-light-green">
@@ -684,8 +696,8 @@ END;
 
                 <h4>Add/Update Charity
                   <div class="w3-tooltip" style="display:inline;">
-		    <a href="." class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</a>
-		  </div>
+                    <a href="." class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</a>
+                  </div>
                 </h4>
 
                 <form action="." method="post">
@@ -744,9 +756,9 @@ END;
 
                 <h4>Status Message
                   <div class="w3-tooltip" style="display:inline;">
-		    <a href="." class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</a>
-		  </div>
-	        </h4>
+                    <a href="." class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</a>
+                  </div>
+                </h4>
 
                 <p><?php echo "{$message}"; ?></p>
 

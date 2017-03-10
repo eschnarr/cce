@@ -16,6 +16,23 @@ if(isset($_POST) && isset($_POST['subject']) && $_POST['subject']) {
     $subject = trim($_POST['subject']);
 }
 
+$div = '<div style="border:1px solid black; ' .
+       'margin:5px; padding:10px; max-width:800px">' .
+       PHP_EOL;
+
+$note = "";
+if(isset($_POST) && isset($_POST['note']) && $_POST['note']) {
+    $note = rtrim($_POST['note']);
+    $note = preg_replace('#[ \t]*[\r\n]#',"\n", $note);
+    $note = preg_replace('#\n+\n#', "\n\n", $note);
+    if($note && $note[0] == '\n') {
+        $note = preg_replace('#\n+#', "", $note, 1);
+    }
+    $note = htmlspecialchars($note);
+    $note = preg_replace('#\n#', "<br>".PHP_EOL, $note);
+    $note = $div.$note.PHP_EOL."</div>".PHP_EOL;
+}
+
 $robot = true;
 $found = array();
 $failed = array(); $sent = 0;
@@ -37,7 +54,15 @@ if(isset($_POST['g-recaptcha-response'])) {
                 $headers .= "Content-type: text/html; charset=iso-8859-1\n";
                 $headers .= "From: contact@thecharitychain.org\n";
                 $headers .= "X-Mailer: PHP/".phpversion();
-                if(false && mail($to, $subject, invitation($to), $headers)) {
+
+                $text = invitation($to);
+                $text = <<<"END"
+{$note}{$div}
+$text
+</div>
+END;
+
+                if(false && mail($to, $subject, $text, $headers)) {
                     ++$sent;
                 } else {
                     $failed[] = $to;
