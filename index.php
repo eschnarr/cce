@@ -282,7 +282,7 @@ if($auth) {
 
             <li><a href="#" onclick="document.getElementById('invite5').style.display='block'">
               Invite FIVE of your friends</a> to also participate in <b>The Charity Chain</b><br>
-              <small>(Note: You ticket is linked to your email, so use this site to send new invitations.)</small>
+              <small>(Note: Your ticket is linked to your email, so use this site to send new invitations.)</small>
 
           </ol>
 
