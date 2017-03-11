@@ -79,7 +79,9 @@ if($domain) {
         $newC->name = $name;
         $newC->donate = $donate;
         if(!$newC->donate) { $newC->donate = $url; }
-        $newC->value += $value;
+        $old = $newC->value; $newC->value += $value;
+
+        write_log('donate', array($email,$domain,$old,$newC->value,'add'));
 
         $message = "Charity saved.";
         if($value > 0.0) {
