@@ -1,5 +1,6 @@
 <?php
 
+define('LOG_DIR', "./logs");
 define('DATA_DIR', "./data");
 define('LOCK_FILE', DATA_DIR."/auto.lock");
 define('CHARITIES_DB', DATA_DIR."/charities.db");
@@ -95,6 +96,18 @@ function save_donations($email, $donations)
     }
 
     return unlink($fname);
+}
+
+function write_log($name, $rec)
+{
+    $fname = LOG_DIR . "/{$name}.log";
+    if(FALSE == ($fd = fopen($fname, 'a'))) { return; }
+
+    $now = new DateTime();
+    array_unshift($rec, $now->getTimestamp());
+
+    fputcsv($fd, $rec);
+    fclose($fd);
 }
 
 ?>

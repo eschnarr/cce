@@ -23,8 +23,12 @@ if(isset($_GET['logout'])) {
     exit;
 
 } else {
-    if($email) { setcookie('email', $email); }
-    if($auth) { setcookie('auth', $auth); }
+    if($auth) {
+        if(!isset($_COOKIE) || !isset($_COOKIE['auth']) ||
+           $auth!=$_COOKIE['auth']) { write_log('login',array($email)); }
+        setcookie('email', $email);
+        setcookie('auth', $auth);
+    }
 }
 
 $message = "";

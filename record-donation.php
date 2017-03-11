@@ -26,7 +26,9 @@ if($domain && $value > 0.0) {
     if($c) {
         $now = new DateTime();
         $c->timestamp = $now->getTimestamp();
-        $c->value += $value;
+        $from = $c->value; $c->value += $value;
+
+        write_log('donate', array($email,$domain,$from,$c->value,'add'));
 
         $message = "$".money_format("%i",$value)." donation recorded.";
         $message .= " Don't forget to visit {$c->name} to actually make your donation.";

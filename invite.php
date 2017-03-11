@@ -1,4 +1,5 @@
 <?php
+require_once "db.php";
 require_once "auth.php";
 require_once "invitation.php";
 require_once "recaptcha/src/autoload.php";
@@ -62,11 +63,16 @@ $text
 </div>
 END;
 
+                $logrec = array($email,$to);
                 if(mail($to, $subject, $text, $headers)) {
+                    $logrec[] = "sent";
                     ++$sent;
                 } else {
+                    $logrec[] = "failed";
                     $failed[] = $to;
                 }
+
+                write_log('invite',$logrec);
             }
         }
     }

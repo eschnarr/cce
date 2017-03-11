@@ -36,6 +36,8 @@ if($domain) {
         }
         $c->value += $value - $old;
         if($c->value < 0.0) { $c->value = 0.0; }
+
+        write_log('donate', array($email,$domain,$old,$value,'change'));
     }
 
     save_donations($email, $donations);
