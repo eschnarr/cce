@@ -31,8 +31,8 @@ class Charity {
 function get_domain($url)
 {
     $domain = filter_var($url, FILTER_SANITIZE_URL);
-    $domain = preg_filter('#^[a-z]+://#i', '', $domain);
-    $domain = preg_filter('#/?(index.[a-z0-9_]+)?(\\?.*)?$#i', '', $domain);
+    $domain = preg_replace('#^[a-z]+://#i', '', $domain);
+    $domain = preg_replace('#/?(index.[a-z0-9_]+)?(\\?.*)?$#i', '', $domain);
     return $domain;
 }
 

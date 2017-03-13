@@ -38,25 +38,36 @@ if(isset($_GET) && isset($_GET['message'])) {
     $message = urldecode($_GET['message']);
 }
 
-$domain = ""; $name = ""; $url = ""; $donate = "";
-if($auth && $countdown > 0 && isset($_POST['new-charity'])) {
-    $url = !isset($_POST['url']) ? "" :
-        filter_var($_POST['url'], FILTER_SANITIZE_URL);
-    if($url && !strpos($url,"://")) { $url = "http://{$url}"; }
-    $domain = get_domain($url);
+$do_update = FALSE;
+$url0 = ""; $url = "";
+$domain0 = ""; $domain = "";
+$name = ""; $url = ""; $donate = "";
+if($auth && $countdown > 0) {
 
-    $name = !isset($_POST['name']) ? "" : trim($_POST['name']);
-    $donate = !isset($_POST['donate']) ? "" :
-        filter_var($_POST['donate'], FILTER_SANITIZE_URL);
-    $value = !isset($_POST['value']) ? 0.0 :
-        (float)filter_var($_POST['value'],
-                          FILTER_SANITIZE_NUMBER_FLOAT,
-                          FILTER_FLAG_ALLOW_FRACTION |
-                          FILTER_FLAG_ALLOW_THOUSAND);
-    if($value < 0.0) { $value = 0.0; }
+    if(isset($_POST['new-charity'])) {
+        $url0 = !isset($_POST['url']) ? "" :
+            filter_var($_POST['url'], FILTER_SANITIZE_URL);
+        $domain0 = get_domain($url0);
+
+    } else if(isset($_POST['save-charity'])) {
+        $domain0 = !isset($_POST['save-charity']) ? "" :
+            filter_var($_POST['save-charity'], FILTER_SANITIZE_URL);
+        $url = !isset($_POST['url']) ? "" :
+            filter_var($_POST['url'], FILTER_SANITIZE_URL);
+        $domain = get_domain($url);
+        $name = !isset($_POST['name']) ? "" : trim($_POST['name']);
+        $donate = !isset($_POST['donate']) ? "" :
+            filter_var($_POST['donate'], FILTER_SANITIZE_URL);
+        $value = !isset($_POST['value']) ? 0.0 :
+            (float)filter_var($_POST['value'],
+                              FILTER_SANITIZE_NUMBER_FLOAT,
+                              FILTER_FLAG_ALLOW_FRACTION |
+                              FILTER_FLAG_ALLOW_THOUSAND);
+        if($value < 0.0) { $value = 0.0; }
+
+        $do_update = $domain && $url && $name;
+    }
 }
-
-$do_update = $domain && $url && $name;
 
 $lock = fopen(LOCK_FILE, 'rw');
 flock($lock, $do_update ? LOCK_EX : LOCK_SH);
@@ -64,13 +75,43 @@ flock($lock, $do_update ? LOCK_EX : LOCK_SH);
 $charities = load_charities();
 $donations = $email ? load_donations($email) : array();
 
-$newC = NULL;
+$newC = FALSE;
 $newC_exists = FALSE;
-if($domain) {
+if($domain0) {
+    if(!$domain) { $domain = $domain0; }
 
-    $newC = isset($charities[$domain]) ? $charities[$domain] : FALSE;
-    if(!$newC) { $newC = new Charity(); }
-    else { $newC_exists = TRUE; }
+    if(isset($charities[$domain])) { $newC = $charities[$domain]; }
+    else if(isset($charities[$domain0])) {
+        $newC0 = $charities[$domain0];
+        if($newC0->name == $name && $newC0->value <= 0.0) {
+            unset($charities[$domain0]); $newC = $newC0;
+        }
+    }
+    if(!$newC) { $newC = new Charity(); } else { $newC_exists = TRUE; }
+
+    if(!$url) {
+        $url = $newC->url ? $newC->url : $url0 = "http://{$domain}";
+    }
+    if(!$name) {
+        if($newC->name) { $name = $newC->name; }
+        else if($url) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            $s = curl_exec($ch);
+            curl_close($ch);
+
+            $matches = array();
+            $pattern = "#<\s*title( [^>]*)?>\s*([^<]*)\s*<\s*/\s*title\s*>#i";
+            if(preg_match($pattern, $s, $matches)) {
+                $name = $matches[2];
+            }
+        }
+    }
+    if(!$donate && !isset($_POST['save-charity'])) {
+        $donate = $newC->donate;
+    }
+    if($donate == $url) { $donate = ""; }
 
     $new_charity_state = 'block';
 
@@ -78,14 +119,14 @@ if($domain) {
         $newC->url = $url;
         $newC->name = $name;
         $newC->donate = $donate;
-        if(!$newC->donate) { $newC->donate = $url; }
         $old = $newC->value; $newC->value += $value;
 
         write_log('donate', array($email,$domain,$old,$newC->value,'new'));
 
         $message = "Charity saved.";
         if($value > 0.0) {
-            $donations[$domain] += $value;
+            if(isset($donations)) { $donations[$domain] += $value; }
+            else { $donations[$domain] = $value; }
             save_donations($email, $donations);
 
             $message .= " $".money_format("%i",$value)." donation recorded.";
@@ -95,32 +136,13 @@ if($domain) {
         $charities[$domain] = $newC;
         save_charities($charities);
     }
+
+} else {
+    $newC = new Charity();
 }
 
 flock($lock, LOCK_UN);
 fclose($lock);
-
-if($domain && $url && !$name) {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    $s = curl_exec($ch);
-    curl_close($ch);
-
-    $matches = array();
-    $pattern = "#<\s*title( [^>]*)?>\s*([^<]*)\s*<\s*/\s*title\s*>#i";
-    if(preg_match($pattern, $s, $matches)) {
-        $name = $matches[2];
-    }
-}
-
-if($newC) {
-    if(!$url) { $url = $newC->url; }
-    if(!$name) { $name = $newC->name; }
-    if(!$donate && $newC->donate != $newC->url) { $donate = $newC->donate; }
-} else {
-    $newC = new Charity();
-}
 
 $total_value = 0.0;
 foreach($charities as $c) {
@@ -323,7 +345,7 @@ foreach($donations as $domain => $value) {
               <a href="{$c->url}" target="_blank">{$domain}</a>
 
 END;
-    if($c->url != $c->donate) $rows[] = <<<"END"
+    if($c->donate) $rows[] = <<<"END"
               (<a href="{$c->donate}" target="_blank">donate</a>)
 
 END;
@@ -408,7 +430,7 @@ END;
               <a href="{$c->url}" target="_blank">{$domain}</a>
 
 END;
-    if($c->url != $c->donate) $rows[] = <<<"END"
+    if($c->donate) $rows[] = <<<"END"
               (<a href="{$c->donate}" target="_blank">donate</a>)
 
 END;
@@ -708,7 +730,8 @@ END;
                 </h4>
 
                 <form action="." method="post">
-                  <input type="hidden" name="new-charity">
+                  <input type="hidden" name="save-charity"
+                         value="<?php echo "{$domain0}"; ?>">
 
                   <div class="w3-row-padding w3-padding-4">
                     <div class="w3-third w3-hide-small"><div class="w3-right">Charity Name:</div></div>
