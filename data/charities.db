@@ -1,4 +1,4 @@
-wish.org,http://wish.org/,"Make-A-Wish® America",https://secure2.wish.org/site/SPageServer?pagename=donate_now&chid=100-000,30,1489245223
+wish.org,http://wish.org/,"Make-A-Wish® America",https://secure2.wish.org/site/SPageServer?pagename=donate_now&chid=100-000,30,1489368350
 www.redcross.org,http://www.redcross.org/,"American Red Cross",https://www.redcross.org/donate/donation,100,1489067230
 host.madison.com/special-section/empty_stocking_club,http://host.madison.com/special-section/empty_stocking_club/,"Empty Stocking Club",https://host.madison.com/forms/online_services/empty-stocking/,0,20
 www.aclu.org,https://www.aclu.org/,"American Civil Liberties Union",https://action.aclu.org/donate-aclu?ms=web_horiz_nav_hp,0,19
@@ -11,7 +11,7 @@ www.goodmancenter.org,http://www.goodmancenter.org/,"Goodman Community Center",h
 www.nationalparks.org,https://www.nationalparks.org/,"National Park Foundation",https://donate.nationalparks.org/ea-action/action?ea.client.id=1957&ea.campaign.id=53869,0,12
 www.nature.org,https://www.nature.org/,"Nature Conservancy",https://support.nature.org/site/Donation2?10420.donation=form1&df_id=10420&intc=nature.tnav.button.donate,0,11
 www.secondharvestmadison.org,http://www.secondharvestmadison.org/,"Second Harvest Foodbank Madison",https://donate.secondharvestmadison.org/,0,10
-www.salvationarmyusa.org,http://www.salvationarmyusa.org/,"The Salvation Army",https://give.salvationarmyusa.org/site/SPageNavigator/national_donation_form.html?amt=,0,9
+www.salvationarmyusa.org,http://www.salvationarmyusa.org/,"The Salvation Army",https://give.salvationarmyusa.org/site/SPageNavigator/national_donation_form.html?amt=,50,1489607833
 www.uwhealthkids.org,http://www.uwhealthkids.org/,"UW Health - American Family Children's Hospital",http://connect.uwhealth.org/site/Donation2?df_id=3902&3902.donation=form1,0,7
 www.jdrf.org,http://www.jdrf.org/,"Juvenile Diabetes Research Foundation",https://www2.jdrf.org/site/Donation2?2376.donation=form1&df_id=2376&s_src=jdrf.org&s_subsrc=siteMenuButton,0,6
 www.rmhc.org,http://www.rmhc.org/,"Ronald McDonald House Charities",http://support.rmhc.org/site/PageNavigator/pw/Donation_Landing.html,0,5
@@ -22,3 +22,5 @@ www.ccfa.org,http://www.ccfa.org/,"Crohn’s & Colitis Foundation",http://online
 emum.org,http://emum.org,"Madison-Area Urban Ministry - Interfaith Community Justice Advocacy",http://emum.org/donate/,20,1489021634
 rccs.us,http://rccs.us,"Rock County Christian School",https://events.netgive.org/e/site/store/2077,350,1489359447
 www.easterseals.com/chicago,http://www.easterseals.com/chicago/,Easterseals,https://secure2.convio.net/es/site/Donation2;jsessionid=00000000.app277a?df_id=1540&mfc_pref=T&1540.donation=form1&NONCE_TOKEN=004467B272E61839D613BE458EA102CD,0,1489259433
+www.givedirectly.org,http://www.givedirectly.org,"Send money to the extreme poor | GiveDirectly",https://www.givedirectly.org/give-now,100,1489372401
+www.centralwired.com,http://www.centralwired.com/,"Central Christian Church",https://ccbeloit.securegive.com/SG/WebOnline/Home/Index?WO=ccbeloit,150,1489960579
