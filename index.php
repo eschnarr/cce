@@ -556,7 +556,7 @@ END;
                   or not donating at all. It's not specific: There are many
                   good charities out there that need support. This site simply
                   connects people to worthy charities. And like a chain letter,
-                  it's membership grows expoentially.</p>
+                  it's membership grows exponentially.</p>
 
                 <p>We ask people to <b>tell us how much they've donated</b>, so
                   we can show the total value of charitable donations
