@@ -294,19 +294,39 @@ if($auth) {
             difference, and that difference continues to grow as you reach out
             to family and friends. <i>So let's not break the chain!</i></p>
 
-          <p>Three easy steps:</p><ol>
+          Three easy steps:
 
-            <li>Make a <b>donation</b> to a charity listed below, or
-              <a href="#add-charity">add your own</a></li>
+          <div class="w3-row">
+            <div class="w3-twothird">
+              <ol>
 
-            <li>Tell us about your donations, so we can show their cumulative
-              effect</li>
+                <li>Make a <b>donation</b> to a charity listed below, or
+                  <a href="#add-charity">add your own</a></li>
 
-            <li><a href="#" onclick="document.getElementById('invite5').style.display='block'">
-              Invite FIVE of your friends</a> to also participate in <b>The Charity Chain</b><br>
-              <small>(Note: Your ticket is linked to your email, so use this site to send new invitations.)</small>
+                <li>Tell us about your donations, so we can show their
+                  cumulative effect</li>
 
-          </ol>
+                <li><a href="#" onclick="document.getElementById('invite3').style.display='block'">
+
+                  Invite family and friends</a> to also participate in <b>The
+                  Charity Chain</b><br>
+
+                  <small>(Note: Your ticket is linked to your email, so use
+                  this site to send new invitations.)</small></li>
+
+              </ol>
+
+            </div>
+            <div class="w3-third w3-yellow w3-padding-small w3-padding-16 w3-border">
+
+              <b><i><a href="#" onclick="document.getElementById('invite3').style.display='block'">
+
+                Invite others</a>, even if you don't make a donation
+                yourself. This site only works with your help to spread the
+                word.</i><b>
+
+            </div>
+          </div>
 
 END;
 } else {
@@ -643,7 +663,7 @@ END;
       </div>
     </div>
 
-    <div id="invite5" class="w3-modal">
+    <div id="invite3" class="w3-modal">
       <div class="w3-modal-content" style="width:600px;">
         <div class="w3-container">
           <form action="invite.php" method="post">
@@ -653,7 +673,7 @@ END;
 
                 <h4>Send Invitations
                   <div class="w3-tooltip" style="display:inline;">
-                    <span onclick="document.getElementById('invite5').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
+                    <span onclick="document.getElementById('invite3').style.display='none'" class="w3-closebtn w3-xxlarge w3-text-grey w3-hover-text-red" style="margin-top:-0.15em;">&times;</span>
                   </div>
                 </h4>
 
@@ -671,7 +691,7 @@ END;
               <div class="w3-row w3-padding-16">
                 <div class="w3-threequarter">
 <?php
-for($i=0; $i<5; ++$i) {
+for($i=0; $i<3; ++$i) {
     echo <<<"END"
 
                   <div class="w3-row w3-padding-4">
